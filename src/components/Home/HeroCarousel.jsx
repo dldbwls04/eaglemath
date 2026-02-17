@@ -111,17 +111,17 @@ export default function HeroCarousel() {
                         <div className="absolute bottom-0 left-0 w-1/3 h-1/2 bg-black/10 rounded-tr-full"></div>
 
                         {/* Content Container */}
-                        <div className="relative h-full max-w-7xl mx-auto px-6 sm:px-12 flex flex-col justify-center">
+                        <div className="relative h-full max-w-7xl mx-auto px-6 sm:px-12 flex flex-col justify-center items-center md:items-start">
                             <div className="max-w-3xl">
                                 <h1
-                                    className={`text-3xl md:text-[32px] lg:text-[34px] font-bold md:font-normal mb-6 md:mb-8 tracking-tight leading-tight text-slate-100 text-left whitespace-pre-line drop-shadow-[0_2px_2px_rgba(0,0,0,0.8)] transition-all duration-1000 ease-out transform ${currentSlide === index ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'
+                                    className={`text-3xl md:text-[32px] lg:text-[34px] font-bold md:font-normal mb-6 md:mb-8 tracking-tight leading-tight text-slate-100 text-center md:text-left whitespace-pre-line drop-shadow-[0_2px_2px_rgba(0,0,0,0.8)] transition-all duration-1000 ease-out transform ${currentSlide === index ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'
                                         }`}
                                     style={{ transitionDelay: '400ms' }}
                                 >
                                     {slide.title}
                                 </h1>
                                 <p
-                                    className={`text-sm md:text-[15px] font-light text-slate-100/80 mb-8 md:mb-10 whitespace-pre-line leading-relaxed border-l-4 border-[#fbbf24] pl-6 text-left transition-all duration-1000 ease-out transform ${currentSlide === index ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'
+                                    className={`text-sm md:text-[15px] font-light text-slate-100/80 mb-8 md:mb-10 whitespace-pre-line leading-relaxed border-l-0 md:border-l-4 border-[#fbbf24] pl-0 md:pl-6 text-center md:text-left transition-all duration-1000 ease-out transform ${currentSlide === index ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'
                                         }`}
                                     style={{ transitionDelay: '800ms' }}
                                 >
@@ -129,7 +129,7 @@ export default function HeroCarousel() {
                                 </p>
 
                                 <div
-                                    className={`flex transition-all duration-1000 ease-out transform ${currentSlide === index ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'
+                                    className={`flex justify-center md:justify-start transition-all duration-1000 ease-out transform ${currentSlide === index ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'
                                         }`}
                                     style={{ transitionDelay: '1100ms' }}
                                 >
