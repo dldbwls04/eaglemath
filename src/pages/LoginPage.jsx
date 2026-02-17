@@ -7,7 +7,7 @@ export default function LoginPage() {
     const location = useLocation();
     const [isLoading, setIsLoading] = useState(false);
     const [loginProvider, setLoginProvider] = useState(null);
-    const from = location.state?.from?.pathname || "/";
+    const from = location.state?.from?.pathname || location.state?.from || "/";
 
     const handleLogin = (provider) => {
         setIsLoading(true);
