@@ -139,7 +139,7 @@ export default function Programs() {
                             <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
                                 {teachers.map((t, idx) => (
                                     <div key={idx} className="group bg-slate-50 rounded-[2rem] p-8 hover:bg-white hover:shadow-xl transition-all duration-500 border border-transparent hover:border-slate-100 flex flex-col items-center text-center">
-                                        <div className={`w-16 h-16 rounded-2xl ${t.color} flex items-center justify-center text-[#fbbf24] mb-6 shadow-lg group-hover:scale-110 transition-transform duration-500`}>
+                                        <div className={`w-16 h-16 rounded-2xl ${t.color} flex items-center justify-center text-white mb-6 shadow-lg group-hover:scale-110 transition-transform duration-500`}>
                                             <Users size={28} />
                                         </div>
                                         <h3 className="text-xl font-black text-[#0f172a] mb-1">{t.name}</h3>
@@ -175,7 +175,7 @@ export default function Programs() {
 
                             {/* Timetable */}
                             <div className="flex items-center space-x-3 mb-8">
-                                <div className="w-1.5 h-8 bg-[#fbbf24] rounded-full"></div>
+                                <div className="w-1.5 h-8 bg-[#0f172a] rounded-full"></div>
                                 <h3 className="text-2xl font-black text-[#0f172a]">고등부 표준시간표</h3>
                             </div>
                             <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-12">
@@ -271,7 +271,7 @@ export default function Programs() {
 
                                         <div className="overflow-hidden rounded-2xl border border-slate-100 mb-8">
                                             <table className="w-full text-sm text-left">
-                                                <thead className="bg-[#0f172a] text-[#fbbf24] font-black tracking-widest uppercase text-xs">
+                                                <thead className="bg-[#0f172a] text-white font-black tracking-widest uppercase text-xs">
                                                     <tr>
                                                         <th className="px-5 py-3.5 w-24 text-center">주차</th>
                                                         <th className="px-5 py-3.5">학습 내용</th>
