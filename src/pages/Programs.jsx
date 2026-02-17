@@ -8,21 +8,21 @@ const teachers = [
         edu: "연세대 공대",
         target: "장훈고 1학년",
         focus: ["교과서(YBM) + 부교재(학평기출) 완벽 연계", "장훈고 특유의 사고형 문항 집중 훈련", "실제 시험 기반 타임어택 훈련"],
-        color: "bg-blue-600"
+        color: "bg-[#0f172a]"
     },
     {
         name: "류명우 T",
         edu: "서울과학고 · 서울대 공대",
         target: "영등포여고 1학년 / 수1·확통",
         focus: ["미래엔 교과서 + 올림포스 변형 대비", "서술형 감점 없는 완벽한 풀이 과정 관리", "수능 출제 빈도 높은 유형 중심 정리"],
-        color: "bg-indigo-600"
+        color: "bg-[#1e3a8a]"
     },
     {
         name: "이송주 T",
         edu: "고려대 수학과",
         target: "대영고 1학년 / 미적분·수2",
         focus: ["대영고 학교 프린트 연계 철저 반영", "실수 차단형 계산·과정 관리 시스템", "극한-미분-적분 연결 구조 마스터"],
-        color: "bg-slate-800"
+        color: "bg-[#334155]"
     }
 ];
 
@@ -87,15 +87,15 @@ export default function Programs() {
     return (
         <div className="min-h-screen bg-white">
             {/* Hero Section - Unified with Middle/Elementary */}
-            <section className="pt-24 pb-16 bg-slate-900 text-white relative overflow-hidden">
+            <section className="pt-24 pb-16 bg-[#0f172a] text-white relative overflow-hidden">
                 <div className="absolute inset-0 opacity-10">
-                    <div className="absolute top-0 left-0 w-full h-full bg-[radial-gradient(circle_at_center,_var(--tw-gradient-stops))] from-blue-500 via-transparent to-transparent"></div>
+                    <div className="absolute top-0 left-0 w-full h-full bg-[radial-gradient(circle_at_center,_var(--tw-gradient-stops))] from-[#fbbf24] via-transparent to-transparent"></div>
                 </div>
                 <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 text-center">
-                    <span className="inline-block px-3 py-1 bg-blue-600 text-white text-[10px] font-black rounded-full mb-4 tracking-widest uppercase">Programs</span>
+                    <span className="inline-block px-3 py-1 bg-[#fbbf24] text-[#0f172a] text-[10px] font-black rounded-full mb-4 tracking-widest uppercase">Programs</span>
                     <h1 className="text-2xl md:text-4xl font-black mb-4 leading-tight">
                         입시 수학의 정점,<br />
-                        <span className="text-blue-400 font-black">독수리수학</span> 프로그램
+                        <span className="text-[#fbbf24] font-black">독수리수학</span> 프로그램
                     </h1>
                     <p className="text-slate-400 text-base max-w-2xl mx-auto font-medium leading-relaxed">
                         분야별 전문 강사진의 분석과 성과로 증명하는<br className="md:hidden" /> 최적화된 커리큘럼
@@ -111,13 +111,13 @@ export default function Programs() {
                             <button
                                 key={tab.id}
                                 onClick={() => setActiveTab(tab.id)}
-                                className={`flex items-center space-x-2 py-5 px-4 text-sm font-black transition-all relative whitespace-nowrap ${activeTab === tab.id ? 'text-blue-600' : 'text-slate-400 hover:text-slate-600'
+                                className={`flex items-center space-x-2 py-5 px-4 text-sm font-black transition-all relative whitespace-nowrap ${activeTab === tab.id ? 'text-[#1e3a8a]' : 'text-slate-400 hover:text-slate-600'
                                     }`}
                             >
                                 {tab.icon}
                                 <span>{tab.label}</span>
                                 {activeTab === tab.id && (
-                                    <span className="absolute bottom-0 left-0 w-full h-1 bg-blue-600 rounded-t-full"></span>
+                                    <span className="absolute bottom-0 left-0 w-full h-1 bg-[#fbbf24] rounded-t-full"></span>
                                 )}
                             </button>
                         ))}
@@ -132,23 +132,23 @@ export default function Programs() {
                     <section className="py-20 animate-in fade-in slide-in-from-bottom-4 duration-500">
                         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                             <div className="text-center mb-16">
-                                <h2 className="text-2xl md:text-3xl font-black text-slate-900 mb-3 tracking-tight">Professional Instructors</h2>
+                                <h2 className="text-2xl md:text-3xl font-black text-[#0f172a] mb-3 tracking-tight">Professional Instructors</h2>
                                 <p className="text-slate-500 font-medium text-sm md:text-base">성적으로 증명하는 독수리수학 최정예 강사진을 소개합니다.</p>
                             </div>
 
                             <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
                                 {teachers.map((t, idx) => (
                                     <div key={idx} className="group bg-slate-50 rounded-[2rem] p-8 hover:bg-white hover:shadow-xl transition-all duration-500 border border-transparent hover:border-slate-100 flex flex-col items-center text-center">
-                                        <div className={`w-16 h-16 rounded-2xl ${t.color} flex items-center justify-center text-white mb-6 shadow-lg group-hover:scale-110 transition-transform duration-500`}>
+                                        <div className={`w-16 h-16 rounded-2xl ${t.color} flex items-center justify-center text-[#fbbf24] mb-6 shadow-lg group-hover:scale-110 transition-transform duration-500`}>
                                             <Users size={28} />
                                         </div>
-                                        <h3 className="text-xl font-black text-slate-900 mb-1">{t.name}</h3>
-                                        <p className="text-blue-600 text-sm font-bold mb-3">{t.edu}</p>
+                                        <h3 className="text-xl font-black text-[#0f172a] mb-1">{t.name}</h3>
+                                        <p className="text-[#1e3a8a] text-sm font-bold mb-3">{t.edu}</p>
                                         <div className="inline-block px-3 py-0.5 bg-white border border-slate-200 rounded-full text-[10px] font-black text-slate-500 mb-6 uppercase tracking-wider">{t.target}</div>
                                         <div className="space-y-3 w-full text-left">
                                             {t.focus.map((f, fidx) => (
                                                 <div key={fidx} className="flex items-start">
-                                                    <div className="mt-1 mr-2.5 text-blue-500"><CheckCircle2 size={14} /></div>
+                                                    <div className="mt-1 mr-2.5 text-[#fbbf24]"><CheckCircle2 size={14} /></div>
                                                     <p className="text-slate-600 text-xs md:text-sm font-bold leading-relaxed">{f}</p>
                                                 </div>
                                             ))}
@@ -166,7 +166,7 @@ export default function Programs() {
                         <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
                             {/* Class Info */}
                             <div className="text-center mb-16 px-4">
-                                <h2 className="text-2xl md:text-3xl font-black text-slate-900 mb-8 tracking-tight">수업안내 및 표준시간표</h2>
+                                <h2 className="text-2xl md:text-3xl font-black text-[#0f172a] mb-8 tracking-tight">수업안내 및 표준시간표</h2>
                                 <div className="space-y-4 text-slate-600 text-sm md:text-base font-bold leading-relaxed">
                                     <p>독수리수학 고등부 정규반은 현행 중심의 기본 과정과<br className="md:hidden" /> 깊이 있는 수능/내신 심화 과정으로 운영됩니다.</p>
                                     <p>내신 기간에는 학교별 집중 대비가 이루어지며,<br className="md:hidden" /> 정규 학기 동안은 개념과 실전을 균형 있게 학습하여<br className="md:hidden" /> 최상의 성적을 이끌어냅니다.</p>
@@ -175,8 +175,8 @@ export default function Programs() {
 
                             {/* Timetable */}
                             <div className="flex items-center space-x-3 mb-8">
-                                <div className="w-1.5 h-8 bg-blue-600 rounded-full"></div>
-                                <h3 className="text-2xl font-black text-slate-900">고등부 표준시간표</h3>
+                                <div className="w-1.5 h-8 bg-[#fbbf24] rounded-full"></div>
+                                <h3 className="text-2xl font-black text-[#0f172a]">고등부 표준시간표</h3>
                             </div>
                             <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-12">
                                 {[
@@ -184,7 +184,7 @@ export default function Programs() {
                                     { day: "화, 목반", times: ["오후 6:00"], options: "주 2회 수업" }
                                 ].map((session, idx) => (
                                     <div key={idx} className="bg-slate-50 p-8 rounded-[2.5rem] border border-slate-100">
-                                        <h4 className="text-lg font-black text-blue-700 mb-6 flex items-center">
+                                        <h4 className="text-lg font-black text-[#1e3a8a] mb-6 flex items-center">
                                             <Calendar size={20} className="mr-2" />
                                             {session.day}
                                         </h4>
@@ -192,7 +192,7 @@ export default function Programs() {
                                             {session.times.map((time, tIdx) => (
                                                 <div key={tIdx} className="flex items-center justify-between bg-white px-5 py-3.5 rounded-xl border border-slate-200/50 shadow-sm">
                                                     <span className="text-sm font-bold text-slate-700">{time} 시작반</span>
-                                                    <span className="text-xs font-bold text-blue-500 bg-blue-50 px-2.5 py-1 rounded-full">모집중</span>
+                                                    <span className="text-xs font-bold text-[#0f172a] bg-[#fbbf24] px-2.5 py-1 rounded-full">모집중</span>
                                                 </div>
                                             ))}
                                         </div>
@@ -201,18 +201,18 @@ export default function Programs() {
                                 ))}
                             </div>
 
-                            <div className="bg-blue-50/50 p-8 rounded-2xl border border-blue-100/50 mb-16 font-bold text-sm md:text-base text-blue-800">
+                            <div className="bg-[#0f172a]/5 p-8 rounded-2xl border border-[#0f172a]/10 mb-16 font-bold text-sm md:text-base text-[#1e3a8a]">
                                 <ul className="space-y-3">
-                                    <li className="flex items-center"><CheckCircle2 size={16} className="mr-2 text-blue-600" /> 주 3일 또는 주 2일 선택<br className="md:hidden" /> (맞춤형 시간표 구성 가능)</li>
-                                    <li className="flex items-center"><CheckCircle2 size={16} className="mr-2 text-blue-600" /> 수업 구성: 2시간 정규수업<br className="md:hidden" /> + 1시간 개별 맞춤 클리닉</li>
-                                    <li className="flex items-center"><CheckCircle2 size={16} className="mr-2 text-blue-600" /> 밀도 있는 수업으로 개념을 다지고<br className="md:hidden" /> 클리닉에서 약점 집중 보완</li>
+                                    <li className="flex items-center"><CheckCircle2 size={16} className="mr-2 text-[#fbbf24]" /> 주 3일 또는 주 2일 선택<br className="md:hidden" /> (맞춤형 시간표 구성 가능)</li>
+                                    <li className="flex items-center"><CheckCircle2 size={16} className="mr-2 text-[#fbbf24]" /> 수업 구성: 2시간 정규수업<br className="md:hidden" /> + 1시간 개별 맞춤 클리닉</li>
+                                    <li className="flex items-center"><CheckCircle2 size={16} className="mr-2 text-[#fbbf24]" /> 밀도 있는 수업으로 개념을 다지고<br className="md:hidden" /> 클리닉에서 약점 집중 보완</li>
                                 </ul>
                             </div>
 
                             {/* Management System */}
                             <div className="flex items-center space-x-3 mb-8">
-                                <div className="w-1.5 h-8 bg-slate-900 rounded-full"></div>
-                                <h3 className="text-2xl font-black text-slate-900">학습 관리 시스템</h3>
+                                <div className="w-1.5 h-8 bg-[#0f172a] rounded-full"></div>
+                                <h3 className="text-2xl font-black text-[#0f172a]">학습 관리 시스템</h3>
                             </div>
                             <div className="space-y-4">
                                 {[
@@ -220,13 +220,13 @@ export default function Programs() {
                                     { title: "(2) 교재 진단평가", desc: "교재 완강 시 진단평가를 실시하여 성취도를 점검하고, 부족한 부분은 오답 클리닉을 통해 마스터합니다.", icon: <Target size={28} /> },
                                     { title: "(3) 복습 방식의 차별화", desc: "단순 반복이 아닌 실전 적용 능력을 배양하며, 누적 학습을 통해 상위 과정과의 연결성을 강화합니다.", icon: <Lightbulb size={28} /> }
                                 ].map((item, idx) => (
-                                    <div key={idx} className="group bg-white p-8 rounded-[2rem] border border-slate-100 shadow-xl shadow-slate-200/30 hover:bg-slate-900 transition-all duration-300">
+                                    <div key={idx} className="group bg-white p-8 rounded-[2rem] border border-slate-100 shadow-xl shadow-slate-200/30 hover:bg-[#0f172a] transition-all duration-300">
                                         <div className="flex flex-col md:flex-row md:items-center gap-6">
-                                            <div className="w-14 h-14 bg-blue-50 text-blue-600 rounded-2xl flex items-center justify-center flex-shrink-0 group-hover:bg-blue-600 group-hover:text-white transition-colors">
+                                            <div className="w-14 h-14 bg-slate-50 text-[#1e3a8a] rounded-2xl flex items-center justify-center flex-shrink-0 group-hover:bg-[#fbbf24] group-hover:text-[#0f172a] transition-colors">
                                                 {item.icon}
                                             </div>
                                             <div>
-                                                <h4 className="text-lg font-black text-slate-900 mb-2 group-hover:text-white transition-colors">{item.title}</h4>
+                                                <h4 className="text-lg font-black text-[#0f172a] mb-2 group-hover:text-white transition-colors">{item.title}</h4>
                                                 <p className="text-slate-500 text-sm md:text-base font-bold leading-relaxed group-hover:text-slate-400 transition-colors">
                                                     {item.desc}
                                                 </p>
@@ -244,8 +244,8 @@ export default function Programs() {
                     <section className="py-20 animate-in fade-in slide-in-from-bottom-4 duration-500">
                         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                             <div className="text-center mb-16">
-                                <span className="text-blue-600 font-black tracking-widest text-xs uppercase mb-3 block">High School seniors</span>
-                                <h2 className="text-2xl md:text-3xl font-black text-slate-900 mb-4 italic uppercase">“수능 수학의 방향이 달라집니다”</h2>
+                                <span className="text-[#1e3a8a] font-black tracking-widest text-xs uppercase mb-3 block">High School seniors</span>
+                                <h2 className="text-2xl md:text-3xl font-black text-[#0f172a] mb-4 italic uppercase">“수능 수학의 방향이 달라집니다”</h2>
                                 <p className="text-slate-500 font-medium text-sm md:text-base max-w-2xl mx-auto">
                                     EBS 수능특강을 단순히 ‘풀기’만 하는 것이 아니라<br className="md:hidden" /> 실제 수능 점수로 연결하는 8주 집중 커리큘럼입니다.
                                 </p>
@@ -253,14 +253,14 @@ export default function Programs() {
 
                             <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
                                 {satSubjects.map((sub, idx) => (
-                                    <div key={idx} className="bg-white rounded-[2.5rem] p-8 md:p-10 shadow-sm border border-slate-100 hover:shadow-xl transition-all duration-300">
+                                    <div key={idx} className="bg-white rounded-[2.5rem] p-8 md:p-10 shadow-sm border border-slate-100 hover:shadow-xl transition-all duration-300 element-hover-scale">
                                         <div className="flex flex-col md:flex-row md:items-center justify-between mb-8 pb-6 border-b border-slate-100 gap-4">
                                             <div>
-                                                <h3 className="text-2xl font-black text-slate-900 flex items-center mb-1">
-                                                    <BookOpen className="text-blue-600 mr-3" size={24} />
+                                                <h3 className="text-2xl font-black text-[#0f172a] flex items-center mb-1">
+                                                    <BookOpen className="text-[#fbbf24] mr-3" size={24} />
                                                     {sub.title}
                                                 </h3>
-                                                <p className="text-blue-600 font-black text-sm md:text-base">{sub.teacher} | {sub.time}</p>
+                                                <p className="text-[#1e3a8a] font-black text-sm md:text-base">{sub.teacher} | {sub.time}</p>
                                                 {sub.note && <p className="text-slate-400 text-xs font-bold mt-1">※ {sub.note}</p>}
                                             </div>
                                             <div className="bg-slate-50 px-4 py-2 rounded-xl border border-slate-100 self-start md:self-center">
@@ -271,16 +271,16 @@ export default function Programs() {
 
                                         <div className="overflow-hidden rounded-2xl border border-slate-100 mb-8">
                                             <table className="w-full text-sm text-left">
-                                                <thead className="bg-slate-50 text-slate-400 font-black tracking-widest uppercase text-xs">
+                                                <thead className="bg-[#0f172a] text-[#fbbf24] font-black tracking-widest uppercase text-xs">
                                                     <tr>
-                                                        <th className="px-5 py-3.5 border-b border-slate-100 w-24 text-center">주차</th>
-                                                        <th className="px-5 py-3.5 border-b border-slate-100">학습 내용</th>
+                                                        <th className="px-5 py-3.5 w-24 text-center">주차</th>
+                                                        <th className="px-5 py-3.5">학습 내용</th>
                                                     </tr>
                                                 </thead>
                                                 <tbody>
                                                     {sub.curriculum.map((item, i) => (
                                                         <tr key={i} className="border-b border-slate-100 last:border-0 hover:bg-slate-50/50 transition-colors">
-                                                            <td className="px-5 py-3.5 font-black text-blue-600 text-center">{i + 1}주차</td>
+                                                            <td className="px-5 py-3.5 font-black text-[#1e3a8a] text-center">{i + 1}주차</td>
                                                             <td className="px-5 py-3.5 font-bold text-slate-700">{item}</td>
                                                         </tr>
                                                     ))}
@@ -288,12 +288,12 @@ export default function Programs() {
                                             </table>
                                         </div>
 
-                                        <div className="bg-blue-50/50 p-6 rounded-2xl border border-blue-100/50">
+                                        <div className="bg-[#0f172a]/5 p-6 rounded-2xl border border-[#0f172a]/10">
                                             <div className="flex items-start">
-                                                <div className="mt-1 mr-3 text-blue-600">
+                                                <div className="mt-1 mr-3 text-[#1e3a8a]">
                                                     <ArrowRight size={16} />
                                                 </div>
-                                                <p className="text-sm md:text-base font-black text-blue-900 leading-relaxed">
+                                                <p className="text-sm md:text-base font-black text-[#0f172a] leading-relaxed">
                                                     {sub.summary}
                                                 </p>
                                             </div>
@@ -310,14 +310,14 @@ export default function Programs() {
                     <section className="py-20 animate-in fade-in slide-in-from-bottom-4 duration-500">
                         <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
                             <div className="text-center max-w-3xl mx-auto mb-16">
-                                <span className="text-blue-600 font-black tracking-widest text-xs uppercase mb-3 block">Weekend Special Lecture</span>
-                                <h2 className="text-2xl md:text-3xl font-black text-slate-900 mb-6 leading-tight tracking-tight">
+                                <span className="text-[#1e3a8a] font-black tracking-widest text-xs uppercase mb-3 block">Weekend Special Lecture</span>
+                                <h2 className="text-2xl md:text-3xl font-black text-[#0f172a] mb-6 leading-tight tracking-tight">
                                     독수리수학 고등부 1학년<br />
-                                    <span className="text-blue-600 italic underline decoration-blue-100 underline-offset-4">학교별 내신대비 주말 특강</span>
+                                    <span className="text-[#1e3a8a] italic underline decoration-[#fbbf24] underline-offset-4">학교별 내신대비 주말 특강</span>
                                 </h2>
                                 <div className="bg-slate-50 inline-block px-6 py-3 rounded-2xl border border-slate-100 mb-8">
                                     <p className="text-slate-900 font-black text-sm md:text-base">
-                                        개강: <span className="text-blue-600">2월 7일</span> (4주+4주=8주 집중 프로그램)
+                                        개강: <span className="text-[#1e3a8a]">2월 7일</span> (4주+4주=8주 집중 프로그램)
                                     </p>
                                 </div>
                                 <p className="text-slate-500 font-medium text-sm md:text-base">
@@ -332,7 +332,7 @@ export default function Programs() {
                                         teacher: "이호길 T",
                                         time: "매주 토요일 오전 11:00 ~ 14:00",
                                         materials: "YBM 교과서 + 학평기출 부교재",
-                                        bg: "bg-blue-600",
+                                        bg: "bg-[#0f172a]",
                                         details: [
                                             "출제 비중 높은 학평 킬러 중심 수업",
                                             "사고형 문항 집중 훈련 및 그림 해석 훈련",
@@ -344,7 +344,7 @@ export default function Programs() {
                                         teacher: "류명우 T",
                                         time: "매주 토요일 오전 11:00 ~ 14:00",
                                         materials: "미래엔 교과서 + 올림포스",
-                                        bg: "bg-indigo-600",
+                                        bg: "bg-[#1e3a8a]",
                                         details: [
                                             "미래엔 예제/유제 및 올림포스 변형 집중",
                                             "영등포여고 특화 정밀 개념 적용 훈련",
@@ -356,7 +356,7 @@ export default function Programs() {
                                         teacher: "이송주 T",
                                         time: "매주 일요일 오전 11:00 ~ 14:00",
                                         materials: "미래엔 교과서 + 학교 프린트",
-                                        bg: "bg-slate-800",
+                                        bg: "bg-[#334155]", // Slate 700ish
                                         details: [
                                             "학교 프린트 연계 문항 철저 분석 반영",
                                             "계산 실수 차단 및 정확도 극대화 시스템",
@@ -366,11 +366,11 @@ export default function Programs() {
                                 ].map((item, idx) => (
                                     <div key={idx} className="group bg-slate-50 rounded-[2.5rem] p-8 md:p-10 hover:bg-white hover:shadow-xl transition-all duration-500 border border-transparent hover:border-slate-100 flex flex-col md:flex-row gap-8">
                                         <div className="md:w-1/3 w-full text-center md:text-left flex flex-col justify-center border-b md:border-b-0 md:border-r border-slate-200/50 pb-6 md:pb-0 md:pr-8">
-                                            <h4 className="text-2xl font-black text-slate-900 mb-2 tracking-tighter">{item.school}</h4>
-                                            <p className="text-blue-600 font-black mb-3 text-lg">{item.teacher}</p>
+                                            <h4 className="text-2xl font-black text-[#0f172a] mb-2 tracking-tighter">{item.school}</h4>
+                                            <p className="text-[#1e3a8a] font-black mb-3 text-lg">{item.teacher}</p>
                                             <div className="space-y-1 mb-4">
                                                 <div className="flex items-center justify-center md:justify-start text-slate-600 text-sm font-bold">
-                                                    <Clock size={14} className="mr-2 text-blue-500" />
+                                                    <Clock size={14} className="mr-2 text-[#fbbf24]" />
                                                     {item.time}
                                                 </div>
                                                 <div className="flex items-center justify-center md:justify-start text-slate-400 text-[10px] font-bold uppercase tracking-tighter">
@@ -382,7 +382,7 @@ export default function Programs() {
                                         <div className="md:w-2/3 w-full space-y-4 flex flex-col justify-center">
                                             {item.details.map((d, didx) => (
                                                 <div key={didx} className="flex items-center bg-white p-4 rounded-xl border border-slate-100 shadow-sm group-hover:shadow-md transition-shadow">
-                                                    <div className="w-1.5 h-6 bg-blue-500 rounded-full mr-5 flex-shrink-0"></div>
+                                                    <div className="w-1.5 h-6 bg-[#1e3a8a] rounded-full mr-5 flex-shrink-0"></div>
                                                     <p className="text-slate-700 text-sm md:text-base font-black leading-snug">{d}</p>
                                                 </div>
                                             ))}
@@ -396,13 +396,13 @@ export default function Programs() {
             </div>
 
             {/* Bottom Call to Action */}
-            <section className="py-16 bg-blue-600 relative overflow-hidden">
+            <section className="py-16 bg-[#0f172a] relative overflow-hidden">
                 <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center relative z-10">
                     <h2 className="text-xl md:text-2xl font-black text-white mb-8">
                         성적이 바뀌는 입시 전략,<br className="sm:hidden" /> 지금 시작하세요.
                     </h2>
                     <div className="flex flex-col sm:flex-row justify-center gap-3 px-4">
-                        <Link to="/contact/counseling" className="px-8 py-3.5 md:py-4 bg-white text-blue-600 font-black rounded-xl hover:bg-slate-100 transition-colors shadow-lg text-sm md:text-base">
+                        <Link to="/contact/counseling" className="px-8 py-3.5 md:py-4 bg-[#fbbf24] text-[#0f172a] font-black rounded-xl hover:bg-[#f59e0b] transition-colors shadow-lg text-sm md:text-base">
                             상담 신청하기
                         </Link>
                         <Link to="/contact/admission" className="px-8 py-3.5 md:py-4 bg-transparent border-2 border-white/30 text-white font-black rounded-xl hover:bg-white/10 transition-colors text-sm md:text-base">

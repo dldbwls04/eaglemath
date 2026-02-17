@@ -169,7 +169,7 @@ export default function Elementary() {
                         <span className="text-blue-400">자기주도 학습</span>의 시작
                     </h1>
                     <p className="text-gray-400 text-base max-w-2xl mx-auto font-medium">
-                        단순한 문제 풀이를 넘어, 스스로 생각하고 해결하는 힘을 길러줍니다.<br />
+                        단순한 문제 풀이를 넘어,<br className="md:hidden" /> 스스로 생각하고 해결하는 힘을 길러줍니다.<br />
                         독수리수학만의 세밀한 지도로 수학에 날개를 답니다.
                     </p>
                 </div>
