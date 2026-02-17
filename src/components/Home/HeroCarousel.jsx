@@ -114,14 +114,14 @@ export default function HeroCarousel() {
                         <div className="relative h-full max-w-7xl mx-auto px-6 sm:px-12 flex flex-col justify-center">
                             <div className="max-w-3xl">
                                 <h1
-                                    className={`text-3xl md:text-[32px] lg:text-[34px] font-bold md:font-normal mb-10 tracking-tight leading-tight text-slate-100 text-left whitespace-pre-line drop-shadow-[0_2px_2px_rgba(0,0,0,0.8)] transition-all duration-1000 ease-out transform ${currentSlide === index ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'
+                                    className={`text-3xl md:text-[32px] lg:text-[34px] font-bold md:font-normal mb-6 md:mb-8 tracking-tight leading-tight text-slate-100 text-left whitespace-pre-line drop-shadow-[0_2px_2px_rgba(0,0,0,0.8)] transition-all duration-1000 ease-out transform ${currentSlide === index ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'
                                         }`}
                                     style={{ transitionDelay: '400ms' }}
                                 >
                                     {slide.title}
                                 </h1>
                                 <p
-                                    className={`text-sm md:text-[15px] font-light text-slate-100/80 mb-10 whitespace-pre-line leading-relaxed border-l-4 border-[#fbbf24] pl-6 h-32 md:h-36 overflow-hidden text-ellipsis text-left transition-all duration-1000 ease-out transform ${currentSlide === index ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'
+                                    className={`text-sm md:text-[15px] font-light text-slate-100/80 mb-8 md:mb-10 whitespace-pre-line leading-relaxed border-l-4 border-[#fbbf24] pl-6 text-left transition-all duration-1000 ease-out transform ${currentSlide === index ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'
                                         }`}
                                     style={{ transitionDelay: '800ms' }}
                                 >
@@ -133,7 +133,7 @@ export default function HeroCarousel() {
                                         }`}
                                     style={{ transitionDelay: '1100ms' }}
                                 >
-                                    <Link to="/contact/counseling" className="px-6 md:px-8 py-3 md:py-3.5 bg-[#fbbf24] hover:bg-[#f59e0b] text-[#1e3a8a] font-bold rounded shadow-lg transition-all transform hover:scale-105 flex items-center group text-sm md:text-base">
+                                    <Link to="/contact/counseling" className="px-5 md:px-6 py-2.5 md:py-3 bg-[#fbbf24] hover:bg-[#f59e0b] text-[#1e3a8a] font-bold rounded shadow-lg transition-all transform hover:scale-105 flex items-center group text-xs md:text-sm">
                                         상담 신청하기 <ChevronRight className="ml-2 w-4 h-4 md:w-5 md:h-5 group-hover:translate-x-1 transition-transform" />
                                     </Link>
                                 </div>
