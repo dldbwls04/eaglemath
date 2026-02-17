@@ -114,7 +114,7 @@ export default function HeroCarousel() {
                         <div className="relative h-full max-w-7xl mx-auto px-6 sm:px-12 flex flex-col justify-center">
                             <div className="max-w-3xl">
                                 <h1
-                                    className={`text-3xl md:text-[32px] lg:text-[34px] font-bold md:font-light mb-10 tracking-tight leading-tight text-slate-100 text-left whitespace-pre-line drop-shadow-[0_2px_2px_rgba(0,0,0,0.8)] transition-all duration-1000 ease-out transform ${currentSlide === index ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'
+                                    className={`text-3xl md:text-[32px] lg:text-[34px] font-black md:font-light mb-10 tracking-tight leading-tight text-slate-100 text-left whitespace-pre-line drop-shadow-[0_2px_2px_rgba(0,0,0,0.8)] transition-all duration-1000 ease-out transform ${currentSlide === index ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'
                                         }`}
                                     style={{ transitionDelay: '400ms' }}
                                 >
