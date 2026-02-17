@@ -61,11 +61,11 @@ export default function FloatingMenu() {
     ];
 
     return (
-        <div className={`fixed right-0 top-1/2 z-[60] hidden lg:flex flex-col items-end transition-all duration-1000 cubic-bezier(0.34, 1.56, 0.64, 1) ${isMounted ? 'translate-x-0 opacity-100' : 'translate-x-full opacity-0'
+        <div className={`fixed right-0 top-1/2 z-[60] hidden lg:flex flex-col items-end transition-all duration-[2500ms] cubic-bezier(0.34, 1.56, 0.64, 1) ${isMounted ? 'translate-x-0 opacity-100' : 'translate-x-full opacity-0'
             }`}
             style={{
                 transform: `translateY(calc(-50% + ${scrollDir}px))`,
-                transition: 'transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1), opacity 1s cubic-bezier(0.34, 1.56, 0.64, 1)'
+                transition: 'transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1), opacity 2.5s cubic-bezier(0.34, 1.56, 0.64, 1)'
             }}>
             <div className="flex flex-col bg-white shadow-[-10px_0_30px_rgba(30,58,138,0.1)] border border-slate-200 rounded-l-2xl overflow-hidden">
                 {menuItems.map((item, index) => (
