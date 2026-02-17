@@ -3,6 +3,7 @@ import { X } from 'lucide-react';
 
 export default function NoticePopup() {
     const [isOpen, setIsOpen] = useState(false);
+    const [scrollDir, setScrollDir] = useState(0);
     const STORAGE_KEY = 'notice_popup_hide_until';
 
     useEffect(() => {
@@ -11,8 +12,39 @@ export default function NoticePopup() {
 
         if (!hideUntil || now > parseInt(hideUntil)) {
             // Show popup with a short delay for better UX
-            const timer = setTimeout(() => setIsOpen(true), 1200);
-            return () => clearTimeout(timer);
+            const timer = setTimeout(() => setIsOpen(true), 1500);
+
+            let lastScrollY = window.pageYOffset;
+            let ticking = false;
+            let stopTimer = null;
+
+            const handleScroll = () => {
+                if (!ticking) {
+                    window.requestAnimationFrame(() => {
+                        const currentScrollY = window.pageYOffset;
+                        const diff = currentScrollY - lastScrollY;
+
+                        if (Math.abs(diff) > 2) {
+                            const moveAmount = Math.max(-30, Math.min(30, diff * 0.4));
+                            setScrollDir(moveAmount);
+                        }
+
+                        if (stopTimer) clearTimeout(stopTimer);
+                        stopTimer = setTimeout(() => setScrollDir(0), 150);
+
+                        lastScrollY = currentScrollY;
+                        ticking = false;
+                    });
+                    ticking = true;
+                }
+            };
+
+            window.addEventListener('scroll', handleScroll);
+            return () => {
+                window.removeEventListener('scroll', handleScroll);
+                clearTimeout(timer);
+                if (stopTimer) clearTimeout(stopTimer);
+            };
         }
     }, []);
 
@@ -28,8 +60,14 @@ export default function NoticePopup() {
     if (!isOpen) return null;
 
     return (
-        <div className="absolute inset-x-0 top-10 z-[100] flex items-start justify-center p-4 animate-in fade-in duration-500 pointer-events-none">
-            <div className="relative bg-white rounded-2xl shadow-[0_20px_50px_rgba(0,0,0,0.3)] max-w-lg w-full overflow-hidden animate-in zoom-in-95 slide-in-from-top-10 duration-500 pointer-events-auto">
+        <div className="fixed inset-0 md:absolute md:inset-x-0 md:top-10 z-[100] flex items-center md:items-start justify-center p-4 pointer-events-none">
+            <div
+                className={`relative bg-white rounded-2xl shadow-[0_20px_50px_rgba(0,0,0,0.3)] max-w-lg w-full overflow-hidden pointer-events-auto transition-all duration-[2000ms] cubic-bezier(0.34, 1.56, 0.64, 1) ${isOpen ? 'opacity-100 translate-y-0 scale-100' : 'opacity-0 translate-y-20 scale-90'}`}
+                style={{
+                    transform: `translateY(${scrollDir}px)`,
+                    transition: 'transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1), opacity 2s cubic-bezier(0.34, 1.56, 0.64, 1)'
+                }}
+            >
                 {/* Poster Content */}
                 <a
                     href="https://blog.naver.com/eaglescience/224158885650"
