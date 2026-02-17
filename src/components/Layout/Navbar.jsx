@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
+import { useLocation, Link } from 'react-router-dom';
 import { ChevronDown, ChevronRight, GraduationCap, BookOpen, Calendar, Phone, Info } from 'lucide-react';
 
 const navItems = [
@@ -57,13 +57,13 @@ const navItems = [
 export default function Navbar() {
     const [isMenuOpen, setIsMenuOpen] = useState(false);
     const [isAuthenticated, setIsAuthenticated] = useState(false);
-    const [activeDropdown, setActiveDropdown] = useState(null);
+    const location = useLocation();
 
     // Close menu when route changes
     useEffect(() => {
         setIsMenuOpen(false);
         setActiveDropdown(null);
-    }, [window.location.pathname]);
+    }, [location.pathname]);
 
     // Close dropdown when clicking outside
     useEffect(() => {
@@ -93,7 +93,7 @@ export default function Navbar() {
     useEffect(() => {
         const authStatus = localStorage.getItem('isAuthenticated') === 'true';
         setIsAuthenticated(authStatus);
-    }, []);
+    }, [location]);
 
     const handleLogout = () => {
         localStorage.removeItem('isAuthenticated');
