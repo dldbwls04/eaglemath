@@ -74,7 +74,7 @@ export default function HeroCarousel() {
 
         const timer = setInterval(() => {
             setCurrentSlide((prev) => (prev + 1) % slides.length);
-        }, 4000); // 4 seconds interval
+        }, 5000); // 5 seconds interval
 
         return () => clearInterval(timer);
     }, [isPaused, currentSlide]);
@@ -87,7 +87,7 @@ export default function HeroCarousel() {
         >
             {/* Sliding Container */}
             <div
-                className="flex h-full transition-transform duration-[1500ms] ease-in-out"
+                className="flex h-full transition-transform duration-[2500ms] ease-in-out"
                 style={{ transform: `translateX(-${currentSlide * 100}%)` }}
             >
                 {slides.map((slide, index) => (
@@ -122,14 +122,14 @@ export default function HeroCarousel() {
                         <div className="relative h-full max-w-7xl mx-auto px-6 sm:px-12 flex flex-col justify-center items-start">
                             <div className="max-w-3xl">
                                 <h1
-                                    className={`text-3xl md:text-[32px] lg:text-[34px] font-bold md:font-normal mb-6 md:mb-8 tracking-tight leading-tight text-slate-100 text-left whitespace-pre-line drop-shadow-[0_2px_2px_rgba(0,0,0,0.8)] transition-all duration-1000 ease-out transform ${currentSlide === index ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'
+                                    className={`text-3xl md:text-[34px] lg:text-[38px] font-medium mb-6 md:mb-8 tracking-tight leading-snug text-slate-100 text-left whitespace-pre-line drop-shadow-[0_2px_2px_rgba(0,0,0,0.8)] transition-all duration-[2000ms] ease-out transform ${currentSlide === index ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'
                                         }`}
                                     style={{ transitionDelay: '400ms' }}
                                 >
                                     {slide.title}
                                 </h1>
                                 <p
-                                    className={`text-sm md:text-[15px] font-light text-slate-100/80 mb-8 md:mb-10 whitespace-pre-line leading-relaxed border-l-4 border-[#fbbf24] pl-6 text-left transition-all duration-1000 ease-out transform ${currentSlide === index ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'
+                                    className={`text-sm md:text-[15px] font-light text-slate-200/90 mb-8 md:mb-10 whitespace-pre-line leading-[1.8] tracking-normal border-l-4 border-[#fbbf24] pl-6 text-left transition-all duration-[2000ms] ease-out transform ${currentSlide === index ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'
                                         }`}
                                     style={{ transitionDelay: '800ms' }}
                                 >
@@ -137,7 +137,7 @@ export default function HeroCarousel() {
                                 </p>
 
                                 <div
-                                    className={`flex justify-start transition-all duration-1000 ease-out transform ${currentSlide === index ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'
+                                    className={`flex justify-start transition-all duration-[2000ms] ease-out transform ${currentSlide === index ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'
                                         }`}
                                     style={{ transitionDelay: '1100ms' }}
                                 >
