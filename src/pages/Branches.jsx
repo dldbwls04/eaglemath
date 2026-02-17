@@ -64,7 +64,7 @@ export default function Branches() {
                                         <div className="p-3 bg-slate-50 rounded-xl group-hover:bg-[#1e3a8a] group-hover:text-white transition-colors duration-300">
                                             <MapPin className="w-6 h-6" />
                                         </div>
-                                        <h2 className="text-2xl font-bold text-slate-800 group-hover:text-[#1e3a8a] transition-colors">
+                                        <h2 className="text-xl md:text-2xl font-bold text-slate-800 group-hover:text-[#1e3a8a] transition-colors">
                                             {branch.name}
                                         </h2>
                                     </div>
