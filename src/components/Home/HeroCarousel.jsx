@@ -103,14 +103,14 @@ export default function HeroCarousel() {
                         <div className="relative h-full max-w-7xl mx-auto px-6 sm:px-12 flex flex-col justify-center">
                             <div className="max-w-3xl">
                                 <h1
-                                    className={`text-3xl md:text-3xl lg:text-4xl font-medium mb-10 tracking-tight leading-tight text-slate-100 text-left whitespace-pre-line transition-all duration-1000 ease-out transform ${currentSlide === index ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'
+                                    className={`text-3xl md:text-3xl lg:text-3xl font-medium mb-10 tracking-tight leading-tight text-slate-100 text-left whitespace-pre-line transition-all duration-1000 ease-out transform ${currentSlide === index ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'
                                         }`}
                                     style={{ transitionDelay: '400ms' }}
                                 >
                                     {slide.title}
                                 </h1>
                                 <p
-                                    className={`text-sm md:text-base text-slate-100/80 mb-10 whitespace-pre-line leading-relaxed border-l-4 border-[#fbbf24] pl-6 h-32 md:h-36 overflow-hidden text-ellipsis text-left transition-all duration-1000 ease-out transform ${currentSlide === index ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'
+                                    className={`text-sm md:text-[15px] text-slate-100/80 mb-10 whitespace-pre-line leading-relaxed border-l-4 border-[#fbbf24] pl-6 h-32 md:h-36 overflow-hidden text-ellipsis text-left transition-all duration-1000 ease-out transform ${currentSlide === index ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'
                                         }`}
                                     style={{ transitionDelay: '800ms' }}
                                 >
