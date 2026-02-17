@@ -4,10 +4,14 @@ import { ChevronRight, Star, TrendingUp, Users } from 'lucide-react';
 import HeroCarousel from '../components/Home/HeroCarousel';
 import ResultsSlider from '../components/Home/ResultsSlider';
 import StudyMaterials from '../components/Home/StudyMaterials';
+import NoticePopup from '../components/Home/NoticePopup';
 
 export default function Home() {
     return (
-        <div className="flex flex-col">
+        <div className="flex flex-col relative">
+            {/* Notice Popup */}
+            <NoticePopup />
+
             {/* Hero Section */}
             <HeroCarousel />
 
