@@ -37,8 +37,8 @@ export default function Branches() {
             <div className="bg-[#0f172a] text-white py-20 px-4 relative overflow-hidden">
                 <div className="absolute top-0 right-[-10%] w-[40%] h-full bg-white/5 skew-x-[-20deg]"></div>
                 <div className="max-w-7xl mx-auto relative z-10 text-center">
-                    <h1 className="text-4xl md:text-5xl font-bold mb-4 tracking-tight">학원지점안내</h1>
-                    <p className="text-xl text-blue-100/80 font-medium">독수리수학은 여러분과 가장 가까운 곳에서<br className="md:hidden" /> 함께합니다</p>
+                    <h1 className="text-3xl md:text-4xl font-bold mb-4 tracking-tight">학원지점안내</h1>
+                    <p className="text-lg md:text-xl text-blue-100/80 font-medium">독수리수학은 여러분과 가장 가까운 곳에서<br className="md:hidden" /> 함께합니다</p>
                 </div>
             </div>
 

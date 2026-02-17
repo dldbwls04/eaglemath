@@ -94,8 +94,8 @@ export default function AcademyIntro() {
             <div className="bg-[#0f172a] text-white py-24 px-4 overflow-hidden relative">
                 <div className="absolute top-0 right-[-10%] w-[40%] h-full bg-white/5 skew-x-[-20deg]"></div>
                 <div className="max-w-7xl mx-auto relative z-10 text-center">
-                    <h1 className="text-4xl md:text-5xl font-bold mb-6 tracking-tight">독수리수학 소개</h1>
-                    <p className="text-xl md:text-2xl text-blue-100/90 font-medium max-w-2xl mx-auto leading-relaxed">
+                    <h1 className="text-3xl md:text-4xl font-bold mb-6 tracking-tight">독수리수학 소개</h1>
+                    <p className="text-lg md:text-xl text-blue-100/90 font-medium max-w-2xl mx-auto leading-relaxed">
                         독수리수학만의<br className="md:hidden" /> 차별화된 수업 시스템을 경험하세요
                     </p>
                 </div>
@@ -105,7 +105,7 @@ export default function AcademyIntro() {
             <div className="py-20 px-4 bg-slate-50 border-b border-slate-100">
                 <div className="max-w-4xl mx-auto text-center">
                     <span className="text-[#0f172a] font-bold tracking-widest text-sm uppercase mb-4 block">PREMIUM EDUCATION SERVICE</span>
-                    <h2 className="text-3xl md:text-4xl font-bold text-slate-900 mb-8 leading-snug">
+                    <h2 className="text-2xl md:text-3xl font-bold text-slate-900 mb-8 leading-snug">
                         저희는 학생의 성장과<br className="md:hidden" /> 본질적인 실력 향상에<br className="md:hidden" /> 집중합니다.
                     </h2>
                     <div className="w-20 h-1 bg-[#fbbf24] mx-auto mb-8"></div>
