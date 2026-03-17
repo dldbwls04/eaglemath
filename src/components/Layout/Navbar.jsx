@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useLocation, Link } from 'react-router-dom';
-import { ChevronDown, ChevronRight, GraduationCap, BookOpen, Calendar, Phone, Info } from 'lucide-react';
+import { ChevronDown, ChevronRight, GraduationCap, BookOpen, Calendar, Phone, Info, ShieldCheck } from 'lucide-react';
 import { onAuthStateChanged, signOut } from 'firebase/auth';
 import { auth } from '../../firebase';
 
@@ -59,6 +59,7 @@ const navItems = [
 export default function Navbar() {
     const [isMenuOpen, setIsMenuOpen] = useState(false);
     const [isAuthenticated, setIsAuthenticated] = useState(false);
+    const [isAdmin, setIsAdmin] = useState(false);
     const [activeDropdown, setActiveDropdown] = useState(null);
     const location = useLocation();
 
@@ -96,6 +97,7 @@ export default function Navbar() {
     useEffect(() => {
         const unsubscribe = onAuthStateChanged(auth, (user) => {
             setIsAuthenticated(!!user);
+            setIsAdmin(user?.email === 'admin@eaglemath.com');
         });
         return () => unsubscribe();
     }, []);
@@ -203,12 +205,20 @@ export default function Navbar() {
                         {/* Login/Logout Button */}
                         <div className="pl-4 border-l border-slate-200">
                             {isAuthenticated ? (
-                                <button
-                                    onClick={handleLogout}
-                                    className="px-5 py-2 text-sm font-bold text-slate-600 border border-slate-300 rounded hover:bg-slate-50 transition-all shadow-sm"
-                                >
-                                    로그아웃
-                                </button>
+                                <div className="flex items-center space-x-4">
+                                    {isAdmin && (
+                                        <div className="flex items-center space-x-1.5 px-3 py-1 bg-amber-50 border border-amber-200 rounded-full">
+                                            <ShieldCheck size={14} className="text-amber-600" />
+                                            <span className="text-[11px] font-black text-amber-700 uppercase tracking-wider">Admin Mode</span>
+                                        </div>
+                                    )}
+                                    <button
+                                        onClick={handleLogout}
+                                        className="px-5 py-2 text-sm font-bold text-slate-600 border border-slate-300 rounded hover:bg-slate-50 transition-all shadow-sm"
+                                    >
+                                        로그아웃
+                                    </button>
+                                </div>
                             ) : (
                                 <Link
                                     to="/login"
