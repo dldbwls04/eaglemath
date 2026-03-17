@@ -121,7 +121,7 @@ export default function Navbar() {
                     {/* Logo */}
                     <div className="flex-shrink-0 flex items-center md:static absolute left-1/2 -translate-x-1/2 h-14 lg:h-auto md:left-0 md:translate-x-0">
                         <Link to="/" className="flex items-center space-x-2">
-                            <img src="/logo_official.png" alt="독수리수학" className="h-6 lg:h-9 w-auto" />
+                            <img src="/logo_official.png" alt="독수리수학" className="h-7 lg:h-10 w-auto" />
                         </Link>
                     </div>
 
