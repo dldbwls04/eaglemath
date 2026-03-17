@@ -24,7 +24,8 @@ const branches = [
         address: "서울 영등포구 신길로29길 17 제상가비동 제지1층 103호",
         mapImage: "",
         kakaoLink: "https://map.kakao.com/?q=%EC%84%9C%EC%9A%B8%20%EC%98%81%EB%93%B1%ED%8F%AC%EA%B5%AC%20%EC%8B%A0%EA%B8%B8%EB%A1%9C29%EA%B8%B8%2017",
-        blogLink: "https://blog.naver.com/eaglescience"
+        blogLink: "https://blog.naver.com/eaglescience",
+        affiliated: false
     },
     {
         id: 5,
@@ -32,7 +33,8 @@ const branches = [
         address: "서울 영등포구 신길로29길 17 신길센트럴자이아파트 103동 상가B동 102호",
         mapImage: "",
         kakaoLink: "https://map.kakao.com/?q=%EC%84%9C%EC%9A%B8%20%EC%98%81%EB%93%B1%ED%8F%AC%EA%B5%AC%20%EC%8B%A0%EA%B8%B8%EB%A1%9C29%EA%B8%B8%2017",
-        blogLink: "https://blog.naver.com/eaglemathedu"
+        blogLink: "https://blog.naver.com/eaglemathedu",
+        affiliated: false
     },
     {
         id: 6,
@@ -72,10 +74,15 @@ export default function Branches() {
                     {branches.map((branch) => (
                         <div
                             key={branch.id}
-                            className="group relative bg-white border border-slate-200 overflow-hidden shadow-sm hover:shadow-xl transition-all duration-500 rounded-2xl"
+                            className={`group relative bg-white overflow-hidden shadow-sm hover:shadow-xl transition-all duration-500 rounded-2xl ${
+                                branch.affiliated === false
+                                    ? 'border-2 border-violet-300 hover:border-violet-400'
+                                    : 'border border-slate-200'
+                            }`}
                             onMouseEnter={() => setHoveredId(branch.id)}
                             onMouseLeave={() => setHoveredId(null)}
                         >
+
                             {/* Main Title Section (Always Visible) */}
                             {branch.blogLink ? (
                                 <a
