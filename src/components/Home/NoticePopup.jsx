@@ -4,7 +4,7 @@ import { X } from 'lucide-react';
 export default function NoticePopup() {
     const [isOpen, setIsOpen] = useState(false);
     const [scrollDir, setScrollDir] = useState(0);
-    const STORAGE_KEY = 'notice_popup_hide_until';
+    const STORAGE_KEY = 'notice_popup_hide_until_v2';
 
     useEffect(() => {
         const hideUntil = localStorage.getItem(STORAGE_KEY);
