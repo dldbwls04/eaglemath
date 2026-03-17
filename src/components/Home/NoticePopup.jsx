@@ -70,7 +70,7 @@ export default function NoticePopup() {
             >
                 {/* Poster Content */}
                 <a
-                    href="https://blog.naver.com/eaglescience/224158885650"
+                    href="https://blog.naver.com/eaglescience/224212428416"
                     target="_blank"
                     rel="noopener noreferrer"
                     className="block group relative"
