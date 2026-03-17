@@ -1,13 +1,18 @@
 import React, { useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { collection, addDoc, serverTimestamp } from 'firebase/firestore';
-import { db, auth } from '../firebase';
+import { ref, uploadBytes, getDownloadURL } from 'firebase/storage';
+import { db, auth, storage } from '../firebase';
 import { Loader2, ArrowLeft } from 'lucide-react';
 
 export default function AdminWrite() {
     const { type } = useParams();
     const navigate = useNavigate();
+    const navigate = useNavigate();
     const [isLoading, setIsLoading] = useState(false);
+    
+    // 파일 업로드 관련
+    const [imageFile, setImageFile] = useState(null);
 
     // 공통 필드
     const [title, setTitle] = useState('');
@@ -66,9 +71,19 @@ export default function AdminWrite() {
                 author: 'admin',
             };
 
+            let uploadedImageUrl = null;
+            if (imageFile) {
+                const storageRef = ref(storage, `results/${Date.now()}_${imageFile.name}`);
+                await uploadBytes(storageRef, imageFile);
+                uploadedImageUrl = await getDownloadURL(storageRef);
+            }
+
             let specifics = {};
             if (type === 'results') {
-                specifics = { student, type: resultType };
+                specifics = { student, type: resultType, content };
+                if (uploadedImageUrl) {
+                    specifics.image = uploadedImageUrl;
+                }
             } else if (type === 'counseling') {
                 specifics = { summary, content };
             } else if (type === 'exam') {
@@ -113,30 +128,39 @@ export default function AdminWrite() {
 
                     {/* 성적·합격 (results) */}
                     {type === 'results' && (
-                        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                            <div>
-                                <label className="block text-sm font-bold text-slate-700 mb-2">구분</label>
-                                <select value={resultType} onChange={(e) => setResultType(e.target.value)} className="w-full p-3 border border-slate-200 rounded-xl">
-                                    <option value="성적 우수">성적 우수</option>
-                                    <option value="합격 뉴스">합격 뉴스</option>
-                                </select>
+                        <>
+                            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                                <div>
+                                    <label className="block text-sm font-bold text-slate-700 mb-2">구분</label>
+                                    <select value={resultType} onChange={(e) => setResultType(e.target.value)} className="w-full p-3 border border-slate-200 rounded-xl">
+                                        <option value="성적 우수">성적 우수</option>
+                                        <option value="합격 뉴스">합격 뉴스</option>
+                                    </select>
+                                </div>
+                                <div>
+                                    <label className="block text-sm font-bold text-slate-700 mb-2">학생 정보</label>
+                                    <input type="text" value={student} onChange={(e) => setStudent(e.target.value)} required className="w-full p-3 border border-slate-200 rounded-xl" placeholder="예) 대영고 1학년 윤지이" />
+                                </div>
                             </div>
                             <div>
-                                <label className="block text-sm font-bold text-slate-700 mb-2">학생 정보</label>
-                                <input type="text" value={student} onChange={(e) => setStudent(e.target.value)} required className="w-full p-3 border border-slate-200 rounded-xl" placeholder="예) 대영고 1학년 윤지이" />
+                                <label className="block text-sm font-bold text-slate-700 mb-2">사진 첨부 (선택)</label>
+                                <input type="file" accept="image/*" onChange={(e) => setImageFile(e.target.files[0])} className="w-full p-3 border border-slate-200 rounded-xl bg-white" />
+                                <p className="text-xs text-slate-400 mt-2">※ 사진 업로드가 안 되는 경우, Firebase Console [Storage] 메뉴에서 첫 [시작하기] 설정을 완료해주세요.</p>
                             </div>
-                        </div>
+                        </>
                     )}
 
-                    {/* 상담일기 & 기출분석 */}
-                    {(type === 'counseling' || type === 'exam') && (
+                    {/* 상담일기 & 기출분석 & 성적소식 상세내용 */}
+                    {(type === 'counseling' || type === 'exam' || type === 'results') && (
                         <>
+                            {(type === 'counseling' || type === 'exam') && (
+                                <div>
+                                    <label className="block text-sm font-bold text-slate-700 mb-2">요약</label>
+                                    <input type="text" value={summary} onChange={(e) => setSummary(e.target.value)} required className="w-full p-3 border border-slate-200 rounded-xl" placeholder="글의 핵심 요약을 입력하세요" />
+                                </div>
+                            )}
                             <div>
-                                <label className="block text-sm font-bold text-slate-700 mb-2">요약</label>
-                                <input type="text" value={summary} onChange={(e) => setSummary(e.target.value)} required className="w-full p-3 border border-slate-200 rounded-xl" placeholder="글의 핵심 요약을 입력하세요" />
-                            </div>
-                            <div>
-                                <label className="block text-sm font-bold text-slate-700 mb-2">내용</label>
+                                <label className="block text-sm font-bold text-slate-700 mb-2">상세 내용 (본문)</label>
                                 <textarea value={content} onChange={(e) => setContent(e.target.value)} required rows={10} className="w-full p-3 border border-slate-200 rounded-xl" placeholder="상세 내용을 입력하세요..."></textarea>
                             </div>
                         </>
