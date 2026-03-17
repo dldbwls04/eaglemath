@@ -11,7 +11,7 @@ const teachers = [
         color: "bg-[#0f172a]"
     },
     {
-        name: "류명우 T",
+        name: "김선도 T",
         edu: "서울과학고 · 서울대 공대",
         target: "영등포여고 1학년 / 수1·확통",
         focus: ["미래엔 교과서 + 올림포스 변형 대비", "서술형 감점 없는 완벽한 풀이 과정 관리", "수능 출제 빈도 높은 유형 중심 정리"],
@@ -42,7 +42,7 @@ const satSubjects = [
     {
         id: "math1",
         title: "수학 I",
-        teacher: "류명우 T",
+        teacher: "김선도 T",
         time: "토요일 15:00 ~ 18:00",
         curriculum: [
             "지수와 로그", "지수함수와 로그함수", "삼각함수", "사인법칙과 코사인법칙",
@@ -64,7 +64,7 @@ const satSubjects = [
     {
         id: "prob",
         title: "확률과 통계",
-        teacher: "류명우 T",
+        teacher: "김선도 T",
         time: "토요일 19:00 ~ 22:00",
         curriculum: [
             "순열과 조합", "이항정리", "확률의 뜻과 활용", "조건부확률",
@@ -341,7 +341,7 @@ export default function Programs() {
                                     },
                                     {
                                         school: "영등포여고 1학년",
-                                        teacher: "류명우 T",
+                                        teacher: "김선도 T",
                                         time: "매주 토요일 오전 11:00 ~ 14:00",
                                         materials: "미래엔 교과서 + 올림포스",
                                         bg: "bg-[#1e3a8a]",

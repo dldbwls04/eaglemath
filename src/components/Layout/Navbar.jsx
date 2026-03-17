@@ -9,7 +9,7 @@ const navItems = [
         icon: <Info size={18} />,
         submenu: [
             { title: "학원소개", path: "/about/intro" },
-            { title: "학원지점안내", path: "/about/branches" },
+            { title: "학원분원안내", path: "/about/branches" },
             { title: "성적 & 합격 소식", path: "/about/results" },
         ]
     },
@@ -20,7 +20,7 @@ const navItems = [
         submenu: [
             { title: "초등", path: "/elementary" },
             { title: "중등", path: "/middle" },
-            { title: "황소수학", path: "/elementary/hwangso" },
+            { title: "특목대비", path: "/elementary/hwangso" },
             { title: "KMA", path: "/kma" },
         ]
     },
@@ -30,7 +30,7 @@ const navItems = [
         icon: <BookOpen size={18} />,
         submenu: [
             { title: "2028 대입", path: "/high-school/2028-admission" },
-            { title: "입시프로그램", path: "/high-school/programs" },
+            { title: "고등", path: "/high-school/programs" },
         ]
     },
     {

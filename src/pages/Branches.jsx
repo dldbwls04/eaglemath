@@ -11,20 +11,44 @@ const branches = [
         blogLink: "https://blog.naver.com/PostList.naver?blogId=eaglemath&widgetTypeCall=true&topReferer=https%3A%2F%2Fpcmap.place.naver.com%2Fplace%2F1350607397%2Fhome%3Fbk_query%3D%25EB%258F%2585%25EC%2588%2598%25EB%25A6%25AC%25EC%2588%2598%25ED%2595%2599%26entry%3Dbmp%26from%3Dmap%26fromPanelNum%3D2%26timestamp%3D202602161854%26locale%3Dko%26svcName%3Dmap_pcv5%26searchText%3D%25EB%258F%2585%25EC%2588%2598%25EB%25A6%25AC%25EC%2588%2598%25ED%2595%2599&trackingCode=naver_place&directAccess=true#"
     },
     {
-        id: 2,
-        name: "독수리수학 뉴타운본원점",
-        address: "서울특별시 영등포구 신길로28길 25 121동 제지2층 제비206호",
-        mapImage: "/images/branches/map_newtown.png",
-        kakaoLink: "https://kko.to/he91H-FUSb",
-        blogLink: "https://blog.naver.com/PostView.naver?blogId=eaglemath&logNo=223481463998&redirect=Dlog&widgetTypeCall=true&topReferer=https%3A%2F%2Fsearch.naver.com%2Fsearch.naver%3Fwhere%3Dnexearch%26sm%3Dtop_hty%26fbm%3D0%26ie%3Dutf8%26query%3D%25EB%258F%2585%25EC%2588%2598%25EB%25A6%25AC%25EC%2588%2598%25ED%2595%2599%2B%25EB%2589%25B4%25ED%2583%2580%25EC%259A%25B4%25EB%25B3%25B8%25EC%259B%2590%26ackey%3Dkmghe2a1&trackingCode=nx&directAccess=false#"
-    },
-    {
         id: 3,
         name: "독수리수학 도림본원",
         address: "서울특별시 영등포구 도신로 65 동연빌딩 2층",
         mapImage: "/images/branches/map_dorim.png",
         kakaoLink: "https://kko.to/bxYONmRmmH",
         blogLink: "https://blog.naver.com/PostList.naver?blogId=eagle_edu&widgetTypeCall=true&topReferer=https%3A%2F%2Fpcmap.place.naver.com%2Fplace%2F1234991240%2Fhome%3Fbk_query%3D%25EB%258F%2585%25EC%2588%2598%25EB%25A6%25AC%25EC%2588%2598%25ED%2595%2599%26entry%3Dbmp%26from%3Dmap%26fromPanelNum%3D2%26timestamp%3D202602161853%26locale%3Dko%26svcName%3Dmap_pcv5%26searchText%3D%25EB%258F%2585%25EC%2588%2598%25EB%25A6%25AC%25EC%2588%2598%25ED%2595%2599&trackingCode=naver_place&directAccess=true#"
+    },
+    {
+        id: 4,
+        name: "독수리수학과학전문관학원",
+        address: "서울 영등포구 신길로29길 17 제상가비동 제지1층 103호",
+        mapImage: "",
+        kakaoLink: "https://map.kakao.com/?q=%EC%84%9C%EC%9A%B8%20%EC%98%81%EB%93%B1%ED%8F%AC%EA%B5%AC%20%EC%8B%A0%EA%B8%B8%EB%A1%9C29%EA%B8%B8%2017",
+        blogLink: "https://blog.naver.com/eaglescience"
+    },
+    {
+        id: 5,
+        name: "리드인 독수리국어",
+        address: "서울 영등포구 신길로29길 17 신길센트럴자이아파트 103동 상가B동 102호",
+        mapImage: "",
+        kakaoLink: "https://map.kakao.com/?q=%EC%84%9C%EC%9A%B8%20%EC%98%81%EB%93%B1%ED%8F%AC%EA%B5%AC%20%EC%8B%A0%EA%B8%B8%EB%A1%9C29%EA%B8%B8%2017",
+        blogLink: "https://blog.naver.com/eaglemathedu"
+    },
+    {
+        id: 6,
+        name: "독수리수학 연구소",
+        address: "경기 성남시 수정구 위례광장로 300 . 514-95호",
+        mapImage: "",
+        kakaoLink: "https://map.kakao.com/?q=%EA%B2%BD%EA%B8%B0%20%EC%84%B1%EB%82%A8%EC%8B%9C%20%EC%88%98%EC%A0%95%EA%B5%AC%20%EC%9C%84%EB%A1%80%EA%B4%91%EC%9E%A5%EB%A1%9C%20300",
+        blogLink: ""
+    },
+    {
+        id: 2,
+        name: "독수리수학 뉴타운본원점",
+        address: "서울특별시 영등포구 신길로28길 25 121동 제지2층 제비206호",
+        mapImage: "/images/branches/map_newtown.png",
+        kakaoLink: "https://kko.to/he91H-FUSb",
+        blogLink: "https://blog.naver.com/PostView.naver?blogId=eaglemath&logNo=223481463998&redirect=Dlog&widgetTypeCall=true&topReferer=https%3A%2F%2Fsearch.naver.com%2Fsearch.naver%3Fwhere%3Dnexearch%26sm%3Dtop_hty%26fbm%3D0%26ie%3Dutf8%26query%3D%25EB%258F%2585%25EC%2588%2598%25EB%25A6%25AC%25EC%2588%2598%25ED%2595%2599%2B%25EB%2589%25B4%25ED%2583%2580%25EC%259A%25B4%25EB%25B3%25B8%25EC%259B%2590%26ackey%3Dkmghe2a1&trackingCode=nx&directAccess=false#"
     }
 ];
 
@@ -37,7 +61,7 @@ export default function Branches() {
             <div className="bg-[#0f172a] text-white py-20 px-4 relative overflow-hidden">
                 <div className="absolute top-0 right-[-10%] w-[40%] h-full bg-white/5 skew-x-[-20deg]"></div>
                 <div className="max-w-7xl mx-auto relative z-10 text-center">
-                    <h1 className="text-3xl md:text-4xl font-bold mb-4 tracking-tight">학원지점안내</h1>
+                    <h1 className="text-3xl md:text-4xl font-bold mb-4 tracking-tight">학원분원안내</h1>
                     <p className="text-lg md:text-xl text-blue-100/80 font-medium">독수리수학은 여러분과 가장 가까운 곳에서<br className="md:hidden" /> 함께합니다</p>
                 </div>
             </div>
@@ -53,34 +77,59 @@ export default function Branches() {
                             onMouseLeave={() => setHoveredId(null)}
                         >
                             {/* Main Title Section (Always Visible) */}
-                            <a
-                                href={branch.blogLink}
-                                target="_blank"
-                                rel="noopener noreferrer"
-                                className="block p-8 cursor-pointer"
-                            >
-                                <div className="flex items-center justify-between">
-                                    <div className="flex items-center space-x-4">
-                                        <div className="p-3 bg-slate-50 rounded-xl group-hover:bg-[#1e3a8a] group-hover:text-white transition-colors duration-300">
-                                            <MapPin className="w-6 h-6" />
+                            {branch.blogLink ? (
+                                <a
+                                    href={branch.blogLink}
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    className="block p-8 cursor-pointer"
+                                >
+                                    <div className="flex items-center justify-between">
+                                        <div className="flex items-center space-x-4">
+                                            <div className="p-3 bg-slate-50 rounded-xl group-hover:bg-[#1e3a8a] group-hover:text-white transition-colors duration-300">
+                                                <MapPin className="w-6 h-6" />
+                                            </div>
+                                            <h2 className="text-xl md:text-2xl font-bold text-slate-800 group-hover:text-[#1e3a8a] transition-colors">
+                                                {branch.name}
+                                            </h2>
                                         </div>
-                                        <h2 className="text-xl md:text-2xl font-bold text-slate-800 group-hover:text-[#1e3a8a] transition-colors">
-                                            {branch.name}
-                                        </h2>
-                                    </div>
-                                    <div className="flex items-center space-x-4">
-                                        <div className="flex items-center space-x-2 text-slate-400 group-hover:text-[#1e3a8a] transition-colors">
-                                            <span className="text-sm font-medium hidden sm:inline">네이버 블로그 보기</span>
-                                            <ExternalLink className="w-5 h-5 group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform" />
+                                        <div className="flex items-center space-x-4">
+                                            <div className="flex items-center space-x-2 text-slate-400 group-hover:text-[#1e3a8a] transition-colors">
+                                                <span className="text-sm font-medium hidden sm:inline">네이버 블로그 보기</span>
+                                                <ExternalLink className="w-5 h-5 group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform" />
+                                            </div>
                                         </div>
                                     </div>
-                                </div>
 
-                                {/* Address (Secondary Line) */}
-                                <div className="mt-4 flex items-center text-slate-500 ml-1">
-                                    <p className="font-medium">{branch.address}</p>
+                                    {/* Address (Secondary Line) */}
+                                    <div className="mt-4 flex items-center text-slate-500 ml-1">
+                                        <p className="font-medium">{branch.address}</p>
+                                    </div>
+                                </a>
+                            ) : (
+                                <div className="block p-8 cursor-pointer">
+                                    <div className="flex items-center justify-between">
+                                        <div className="flex items-center space-x-4">
+                                            <div className="p-3 bg-slate-50 rounded-xl group-hover:bg-[#1e3a8a] group-hover:text-white transition-colors duration-300">
+                                                <MapPin className="w-6 h-6" />
+                                            </div>
+                                            <h2 className="text-xl md:text-2xl font-bold text-slate-800 group-hover:text-[#1e3a8a] transition-colors">
+                                                {branch.name}
+                                            </h2>
+                                        </div>
+                                        <div className="flex items-center space-x-4">
+                                            <div className="px-3 py-1 bg-slate-100 text-slate-500 rounded-lg text-xs font-bold border border-slate-200">
+                                                연구시설
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    {/* Address (Secondary Line) */}
+                                    <div className="mt-4 flex items-center text-slate-500 ml-1">
+                                        <p className="font-medium">{branch.address}</p>
+                                    </div>
                                 </div>
-                            </a>
+                            )}
 
                             {/* Sliding Map & Details Section */}
                             <div

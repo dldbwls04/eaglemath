@@ -55,7 +55,7 @@ export default function FloatingMenu() {
     }, []);
 
     const menuItems = [
-        { label: "지점안내", path: "/about/branches", icon: <MapPin size={18} /> },
+        { label: "분원안내", path: "/about/branches", icon: <MapPin size={18} /> },
         { label: "입학안내", path: "/contact/admission", icon: <GraduationCap size={18} /> },
         { label: "상담신청", path: "/contact/counseling", icon: <Phone size={18} /> },
     ];
