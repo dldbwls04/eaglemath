@@ -353,12 +353,20 @@ export default function Navbar() {
 
                             <div className="p-6 bg-slate-50 border-t border-slate-100">
                                 {isAuthenticated ? (
-                                    <button
-                                        onClick={handleLogout}
-                                        className="w-full py-3 text-center text-slate-600 font-bold border border-slate-300 rounded-lg hover:bg-white transition-colors shadow-sm"
-                                    >
-                                        로그아웃
-                                    </button>
+                                    <div className="space-y-4">
+                                        {isAdmin && (
+                                            <div className="flex items-center justify-center space-x-2 px-3 py-2 bg-amber-50 border border-amber-200 rounded-lg">
+                                                <ShieldCheck size={16} className="text-amber-600" />
+                                                <span className="text-xs font-black text-amber-700 uppercase tracking-wider">Admin Mode</span>
+                                            </div>
+                                        )}
+                                        <button
+                                            onClick={handleLogout}
+                                            className="w-full py-3 text-center text-slate-600 font-bold border border-slate-300 rounded-lg hover:bg-white transition-colors shadow-sm"
+                                        >
+                                            로그아웃
+                                        </button>
+                                    </div>
                                 ) : (
                                     <Link
                                         to="/login"
