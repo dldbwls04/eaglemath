@@ -1,10 +1,13 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { Routes, Route, Navigate, useLocation } from 'react-router-dom';
+import { onAuthStateChanged } from 'firebase/auth';
+import { auth } from './firebase';
 import Layout from './components/Layout/Layout';
 import ScrollToTop from './components/ScrollToTop';
 import Home from './pages/Home';
 import Resources from './pages/Resources';
 import LoginPage from './pages/LoginPage';
+import SignupPage from './pages/SignupPage';
 import AcademyIntro from './pages/AcademyIntro';
 import Branches from './pages/Branches';
 import ResultsArchive from './pages/ResultsArchive';
@@ -19,12 +22,29 @@ import Programs from './pages/Programs';
 import Admission from './pages/Admission';
 import CounselingLogs from './pages/CounselingLogs';
 
-// Basic Protected Route Component
+// Firebase Auth 기반 ProtectedRoute
 const ProtectedRoute = ({ children }) => {
-  const isAuthenticated = localStorage.getItem('isAuthenticated') === 'true';
+  const [authState, setAuthState] = useState({ checked: false, user: null });
   const location = useLocation();
 
-  if (!isAuthenticated) {
+  useEffect(() => {
+    const unsubscribe = onAuthStateChanged(auth, (user) => {
+      setAuthState({ checked: true, user });
+      if (user) {
+        localStorage.setItem('isAuthenticated', 'true');
+      } else {
+        localStorage.removeItem('isAuthenticated');
+      }
+    });
+    return () => unsubscribe();
+  }, []);
+
+  if (!authState.checked) {
+    // Firebase 인증 상태 확인 중: 깜빡임 방지를 위해 빈 화면 표시
+    return <div className="min-h-screen bg-slate-50" />;
+  }
+
+  if (!authState.user) {
     return <Navigate to="/login" state={{ from: location.pathname }} replace />;
   }
 
@@ -45,6 +65,7 @@ function App() {
       <ScrollToTop />
       <Routes>
         <Route path="/login" element={<LoginPage />} />
+        <Route path="/signup" element={<SignupPage />} />
         <Route path="/" element={<Layout />}>
           <Route index element={<Home />} />
 

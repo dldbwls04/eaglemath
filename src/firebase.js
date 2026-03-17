@@ -1,0 +1,16 @@
+import { initializeApp } from "firebase/app";
+import { getAuth } from "firebase/auth";
+
+const firebaseConfig = {
+  apiKey: "AIzaSyAwtGjZLBTecCK4I4udMlnu6lMBn1fJ1Bk",
+  authDomain: "eaglemath-e1862.firebaseapp.com",
+  projectId: "eaglemath-e1862",
+  storageBucket: "eaglemath-e1862.firebasestorage.app",
+  messagingSenderId: "629299724964",
+  appId: "1:629299724964:web:8022c0306ec8ba7595dc31",
+  measurementId: "G-F1ESNEGY2Q"
+};
+
+const app = initializeApp(firebaseConfig);
+export const auth = getAuth(app);
+export default app;

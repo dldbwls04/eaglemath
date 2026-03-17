@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { useLocation, Link } from 'react-router-dom';
 import { ChevronDown, ChevronRight, GraduationCap, BookOpen, Calendar, Phone, Info } from 'lucide-react';
+import { onAuthStateChanged, signOut } from 'firebase/auth';
+import { auth } from '../../firebase';
 
 const navItems = [
     {
@@ -92,15 +94,20 @@ export default function Navbar() {
     };
 
     useEffect(() => {
-        const authStatus = localStorage.getItem('isAuthenticated') === 'true';
-        setIsAuthenticated(authStatus);
-    }, [location]);
+        const unsubscribe = onAuthStateChanged(auth, (user) => {
+            setIsAuthenticated(!!user);
+        });
+        return () => unsubscribe();
+    }, []);
 
-    const handleLogout = () => {
-        localStorage.removeItem('isAuthenticated');
-        localStorage.removeItem('userProvider');
-        setIsAuthenticated(false);
-        window.location.reload(); // Refresh to update protected routes
+    const handleLogout = async () => {
+        try {
+            await signOut(auth);
+            localStorage.removeItem('isAuthenticated');
+            window.location.href = '/';
+        } catch (err) {
+            console.error('로그아웃 오류:', err);
+        }
     };
 
     return (
