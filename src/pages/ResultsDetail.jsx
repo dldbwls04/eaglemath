@@ -1,6 +1,8 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { useParams, Link } from 'react-router-dom';
-import { Trophy, Calendar, User, ArrowLeft, Share2, MessageCircle } from 'lucide-react';
+import { Trophy, Calendar, User, ArrowLeft, Share2, MessageCircle, Loader2 } from 'lucide-react';
+import { doc, getDoc } from 'firebase/firestore';
+import { db } from '../firebase';
 
 const resultsData = {
     1: {
@@ -52,7 +54,56 @@ const resultsData = {
 
 export default function ResultsDetail() {
     const { id } = useParams();
-    const result = resultsData[id];
+    const [result, setResult] = useState(resultsData[id] || null);
+    const [isLoading, setIsLoading] = useState(!resultsData[id]);
+
+    useEffect(() => {
+        const fetchDetail = async () => {
+            if (resultsData[id]) {
+                setResult(resultsData[id]);
+                setIsLoading(false);
+                return;
+            }
+
+            try {
+                const docRef = doc(db, 'results', id);
+                const docSnap = await getDoc(docRef);
+                if (docSnap.exists()) {
+                    setResult({ id: docSnap.id, ...docSnap.data() });
+                }
+            } catch (error) {
+                console.error("Error fetching detail:", error);
+            } finally {
+                setIsLoading(false);
+            }
+        };
+
+        fetchDetail();
+    }, [id]);
+
+    // Handle string formatting for generic text content if no image/HTML structure
+    const renderContent = () => {
+        if (!result.content) {
+            return (
+                <div className="bg-slate-50 border-l-4 border-[#1e3a8a] p-8 rounded-r-xl mb-12 italic text-slate-700 leading-relaxed shadow-sm">
+                    "수학은 단순한 암기가 아닙니다. 학생 스스로 원리를 깨우칠 때 진정한 성취감이 찾아옵니다."
+                </div>
+            );
+        }
+        return (
+            <div className="whitespace-pre-line text-slate-600 leading-[1.8] text-lg">
+                {result.content}
+            </div>
+        );
+    };
+
+    if (isLoading) {
+        return (
+            <div className="min-h-screen flex items-center justify-center">
+                <Loader2 className="w-10 h-10 animate-spin text-[#1e3a8a]" />
+            </div>
+        );
+    }
 
     if (!result) {
         return (
@@ -122,15 +173,7 @@ export default function ResultsDetail() {
                             />
                         </div>
                     ) : (
-                        <>
-                            <div className="bg-slate-50 border-l-4 border-[#1e3a8a] p-8 rounded-r-xl mb-12 italic text-slate-700 leading-relaxed shadow-sm">
-                                "수학은 단순한 암기가 아닙니다. 학생 스스로 원리를 깨우칠 때 진정한 성취감이 찾아옵니다."
-                            </div>
-
-                            <div className="whitespace-pre-line text-slate-600 leading-[1.8] text-lg">
-                                {result.content}
-                            </div>
-                        </>
+                        renderContent()
                     )}
 
                     {/* Additional sections if needed */}

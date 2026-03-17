@@ -1,6 +1,8 @@
-import React, { useState } from 'react';
-import { ChevronDown, ChevronUp, MessageCircle } from 'lucide-react';
+import React, { useState, useEffect } from 'react';
+import { ChevronDown, ChevronUp, MessageCircle, Edit3, Loader2 } from 'lucide-react';
 import { Link } from 'react-router-dom';
+import { collection, getDocs, orderBy, query } from 'firebase/firestore';
+import { db, auth } from '../firebase';
 
 const logs = [
     {
@@ -74,17 +76,57 @@ const logs = [
 
 export default function CounselingLogs() {
     const [openId, setOpenId] = useState(null);
+    const [posts, setPosts] = useState(logs);
+    const [isLoading, setIsLoading] = useState(true);
+    const isAdmin = auth.currentUser?.email === 'admin@eaglemath.com';
+
+    useEffect(() => {
+        const fetchPosts = async () => {
+            try {
+                const q = query(collection(db, 'counseling'), orderBy('date', 'desc'));
+                const querySnapshot = await getDocs(q);
+                const firestoreData = querySnapshot.docs.map(doc => ({
+                    id: doc.id,
+                    ...doc.data(),
+                    // Firestore string content rendered as paragraph
+                    content: (
+                        <div className="space-y-4 text-slate-600 leading-relaxed text-sm md:text-base whitespace-pre-line">
+                            {doc.data().content}
+                        </div>
+                    )
+                }));
+                const merged = [...firestoreData, ...logs].sort((a, b) => new Date(b.date) - new Date(a.date));
+                setPosts(merged);
+            } catch (error) {
+                console.error("Error fetching logs:", error);
+                setPosts(logs);
+            } finally {
+                setIsLoading(false);
+            }
+        };
+
+        fetchPosts();
+    }, []);
 
     return (
         <div className="min-h-screen bg-white">
             {/* Hero */}
             <section className="pt-28 pb-12 bg-white border-b border-slate-50">
-                <div className="max-w-5xl mx-auto px-4 text-center md:text-left">
-                    <span className="inline-block px-3 py-1 bg-blue-50 text-blue-600 text-[10px] font-black rounded-full mb-3 tracking-widest uppercase">Advice & Strategy</span>
-                    <h1 className="text-2xl md:text-4xl font-black text-slate-900 mb-4">상담일기</h1>
-                    <p className="text-slate-500 text-sm md:text-base max-w-2xl font-medium leading-relaxed">
-                        독수리수학이 학부모님들과 나누었던 수학 교육의 고민과<br className="md:hidden" /> 확실한 성적 향상의 솔루션을 공유합니다.
-                    </p>
+                <div className="max-w-5xl mx-auto px-4 flex flex-col md:flex-row md:items-center justify-between gap-6">
+                    <div className="text-center md:text-left">
+                        <span className="inline-block px-3 py-1 bg-blue-50 text-blue-600 text-[10px] font-black rounded-full mb-3 tracking-widest uppercase">Advice & Strategy</span>
+                        <h1 className="text-2xl md:text-4xl font-black text-slate-900 mb-4">상담일기</h1>
+                        <p className="text-slate-500 text-sm md:text-base max-w-2xl font-medium leading-relaxed">
+                            독수리수학이 학부모님들과 나누었던 수학 교육의 고민과<br className="md:hidden" /> 확실한 성적 향상의 솔루션을 공유합니다.
+                        </p>
+                    </div>
+                    {isAdmin && (
+                        <div className="text-center md:text-right shrink-0">
+                            <Link to="/admin/write/counseling" className="inline-flex items-center px-6 py-3 bg-[#1e3a8a] text-white font-bold rounded-xl shadow-lg hover:bg-[#1e40af] transition-colors">
+                                <Edit3 size={18} className="mr-2" /> 일기 쓰기
+                            </Link>
+                        </div>
+                    )}
                 </div>
             </section>
 
@@ -92,7 +134,13 @@ export default function CounselingLogs() {
             <section className="py-8">
                 <div className="max-w-5xl mx-auto px-4 md:px-8">
                     <div className="divide-y divide-slate-100 border-t border-slate-100">
-                        {logs.map((log) => (
+                        {isLoading ? (
+                            <div className="py-20 text-center text-slate-400 font-bold flex flex-col items-center justify-center">
+                                <Loader2 className="w-8 h-8 animate-spin text-[#1e3a8a] mb-4" />
+                                불러오는 중...
+                            </div>
+                        ) : (
+                            posts.map((log) => (
                             <div key={log.id} className="group">
                                 <button
                                     onClick={() => setOpenId(openId === log.id ? null : log.id)}
@@ -120,7 +168,7 @@ export default function CounselingLogs() {
                                     </div>
                                 )}
                             </div>
-                        ))}
+                        )))}
                     </div>
 
                     {/* Notice */}

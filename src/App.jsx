@@ -21,6 +21,8 @@ import CollegePrep from './pages/CollegePrep';
 import Programs from './pages/Programs';
 import Admission from './pages/Admission';
 import CounselingLogs from './pages/CounselingLogs';
+import ExamAnalysis from './pages/ExamAnalysis';
+import AdminWrite from './pages/AdminWrite';
 
 // Firebase Auth 기반 ProtectedRoute
 const ProtectedRoute = ({ children }) => {
@@ -91,7 +93,7 @@ function App() {
           {/* Resources Routes */}
           <Route path="resources" element={<PagePlaceholder title="학습자료" />} />
           <Route path="resources/counseling-logs" element={<CounselingLogs />} />
-          <Route path="resources/exam-analysis" element={<PagePlaceholder title="기출문제 분석" />} />
+          <Route path="resources/exam-analysis" element={<ExamAnalysis />} />
           <Route path="resources/materials" element={
             <ProtectedRoute>
               <Resources />
@@ -106,6 +108,9 @@ function App() {
           {/* 404 */}
           <Route path="*" element={<PagePlaceholder title="페이지를 찾을 수 없습니다" />} />
         </Route>
+        
+        {/* Admin Write Route */}
+        <Route path="/admin/write/:type" element={<ProtectedRoute><AdminWrite /></ProtectedRoute>} />
       </Routes>
     </>
   );

@@ -1,5 +1,8 @@
-import React, { useState } from 'react';
-import { FileText, Download, Lock, ChevronRight, GraduationCap, Archive, Award, Layers } from 'lucide-react';
+import React, { useState, useEffect } from 'react';
+import { FileText, Download, Lock, ChevronRight, GraduationCap, Archive, Award, Layers, Edit3, Loader2 } from 'lucide-react';
+import { Link } from 'react-router-dom';
+import { collection, getDocs, orderBy, query } from 'firebase/firestore';
+import { db, auth } from '../firebase';
 
 const materials = [
     {
@@ -17,10 +20,36 @@ const materials = [
 export default function Resources() {
     const [activeFilter, setActiveFilter] = useState({ main: "전체", sub: null });
     const [expandedCategory, setExpandedCategory] = useState(null);
+    const [items, setItems] = useState(materials);
+    const [isLoading, setIsLoading] = useState(true);
+
+    const isAdmin = auth.currentUser?.email === 'admin@eaglemath.com';
+
+    useEffect(() => {
+        const fetchItems = async () => {
+            try {
+                const q = query(collection(db, 'resources'), orderBy('date', 'desc'));
+                const querySnapshot = await getDocs(q);
+                const firestoreData = querySnapshot.docs.map(doc => ({
+                    id: doc.id,
+                    ...doc.data()
+                }));
+                const merged = [...firestoreData, ...materials].sort((a, b) => new Date(b.date) - new Date(a.date));
+                setItems(merged);
+            } catch (error) {
+                console.error("Error fetching resources:", error);
+                setItems(materials);
+            } finally {
+                setIsLoading(false);
+            }
+        };
+
+        fetchItems();
+    }, []);
 
     const filteredMaterials = activeFilter.main === "전체"
-        ? materials
-        : materials.filter(m => {
+        ? items
+        : items.filter(m => {
             if (activeFilter.sub) {
                 return m.category === activeFilter.main && m.subCategory === activeFilter.sub;
             }
@@ -51,9 +80,18 @@ export default function Resources() {
         <div className="min-h-screen bg-slate-50 pt-32 pb-24">
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                 {/* Header */}
-                <div className="mb-12 text-center md:text-left">
-                    <h1 className="text-4xl font-extrabold text-slate-900 mb-4">학습자료실</h1>
-                    <p className="text-lg text-slate-500 font-medium">독수리수학 재원생을 위한 고품격 학습 자료입니다.</p>
+                <div className="mb-12 flex flex-col md:flex-row md:items-center justify-between gap-6">
+                    <div className="text-center md:text-left">
+                        <h1 className="text-4xl font-extrabold text-slate-900 mb-4">학습자료실</h1>
+                        <p className="text-lg text-slate-500 font-medium">독수리수학 재원생을 위한 고품격 학습 자료입니다.</p>
+                    </div>
+                    {isAdmin && (
+                        <div className="text-center md:text-right shrink-0">
+                            <Link to="/admin/write/resources" className="inline-flex items-center px-6 py-3 bg-[#1e3a8a] text-white font-bold rounded-xl shadow-lg hover:bg-[#1e40af] transition-colors">
+                                <Edit3 size={18} className="mr-2" /> 자료 등록
+                            </Link>
+                        </div>
+                    )}
                 </div>
 
                 <div className="flex flex-col lg:flex-row gap-12">
@@ -127,7 +165,12 @@ export default function Resources() {
                         {/* Materials List */}
                         <div className="bg-white rounded-[2.5rem] shadow-xl shadow-slate-200/50 border border-slate-100 overflow-hidden">
                             <div className="divide-y divide-slate-100">
-                                {filteredMaterials.map((item) => (
+                                {isLoading ? (
+                                    <div className="py-32 text-center flex flex-col items-center justify-center">
+                                        <Loader2 className="w-10 h-10 animate-spin text-[#1e3a8a] mb-4" />
+                                        <p className="text-slate-400 font-bold">자료를 불러오는 중입니다...</p>
+                                    </div>
+                                ) : filteredMaterials.map((item) => (
                                     <div key={item.id} className="p-8 md:p-10 hover:bg-slate-50 transition-all group relative">
                                         <div className="absolute top-0 left-0 w-1.5 h-0 bg-[#1e3a8a] group-hover:h-full transition-all duration-300"></div>
                                         <div className="flex flex-col md:flex-row md:items-center justify-between gap-6">
@@ -165,7 +208,7 @@ export default function Resources() {
                                         </div>
                                     </div>
                                 ))}
-                                {filteredMaterials.length === 0 && (
+                                {!isLoading && filteredMaterials.length === 0 && (
                                     <div className="py-32 text-center">
                                         <div className="w-20 h-20 bg-slate-50 rounded-full flex items-center justify-center mx-auto mb-6">
                                             <FileText className="w-10 h-10 text-slate-200" />
