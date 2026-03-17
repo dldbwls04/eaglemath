@@ -3,6 +3,7 @@ import { Trophy, Calendar, User, ArrowRight, ExternalLink, Edit3 } from 'lucide-
 import { Link } from 'react-router-dom';
 import { collection, getDocs, orderBy, query } from 'firebase/firestore';
 import { db, auth } from '../firebase';
+import AdminWrite from './AdminWrite';
 
 const results = [
     {
@@ -45,51 +46,62 @@ const results = [
 export default function ResultsArchive() {
     const [posts, setPosts] = useState(results);
     const [isLoading, setIsLoading] = useState(true);
+    const [isWriting, setIsWriting] = useState(false);
     const isAdmin = auth.currentUser?.email === 'admin@eaglemath.com';
 
-    useEffect(() => {
-        const fetchPosts = async () => {
-            try {
-                const q = query(collection(db, 'results'), orderBy('date', 'desc'));
-                const querySnapshot = await getDocs(q);
-                const firestoreData = querySnapshot.docs.map(doc => ({
-                    id: doc.id,
-                    ...doc.data()
-                }));
-                // 기존 하드코딩된 데이터와 병합 (날짜순 정렬)
-                const merged = [...firestoreData, ...results].sort((a, b) => new Date(b.date) - new Date(a.date));
-                setPosts(merged);
-            } catch (error) {
-                console.error("Error fetching results:", error);
-                setPosts(results); // 실패 시 기존 데이터라도 보여주기
-            } finally {
-                setIsLoading(false);
-            }
-        };
+    const fetchPosts = async () => {
+        setIsLoading(true);
+        try {
+            const q = query(collection(db, 'results'), orderBy('date', 'desc'));
+            const querySnapshot = await getDocs(q);
+            const firestoreData = querySnapshot.docs.map(doc => ({
+                id: doc.id,
+                ...doc.data()
+            }));
+            // 기존 하드코딩된 데이터와 병합 (날짜순 정렬)
+            const merged = [...firestoreData, ...results].sort((a, b) => new Date(b.date) - new Date(a.date));
+            setPosts(merged);
+        } catch (error) {
+            console.error("Error fetching results:", error);
+            setPosts(results); // 실패 시 기존 데이터라도 보여주기
+        } finally {
+            setIsLoading(false);
+        }
+    };
 
+    useEffect(() => {
         fetchPosts();
     }, []);
+
+    const handleSuccess = () => {
+        setIsWriting(false);
+        fetchPosts();
+    };
 
     return (
         <div className="bg-white min-h-screen">
             {/* Hero Section */}
             <div className="bg-slate-50 border-b border-slate-100 py-16 px-4">
-                <div className="max-w-5xl mx-auto flex flex-col md:flex-row md:items-center justify-between gap-6text-center md:text-left">
+                <div className="max-w-5xl mx-auto flex flex-col md:flex-row md:items-center justify-between gap-6 text-center md:text-left">
                     <div>
                         <h1 className="text-3xl font-bold text-slate-900 mb-2">성적 & 합격 소식</h1>
                         <p className="text-slate-500 font-medium">독수리수학 학생들의 성실함이 만들어낸 소중한 결실입니다</p>
                     </div>
-                    {isAdmin && (
-                        <Link to="/admin/write/results" className="inline-flex items-center px-6 py-3 bg-[#1e3a8a] text-white font-bold rounded-xl shadow-lg hover:bg-[#1e40af] transition-colors shrink-0">
+                    {isAdmin && !isWriting && (
+                        <button onClick={() => setIsWriting(true)} className="inline-flex items-center px-6 py-3 bg-[#1e3a8a] text-white font-bold rounded-xl shadow-lg hover:bg-[#1e40af] transition-colors shrink-0">
                             <Edit3 size={18} className="mr-2" /> 소식 등록
-                        </Link>
+                        </button>
                     )}
                 </div>
             </div>
 
-            {/* Content Section (Minimal Blog List Style) */}
             <div className="max-w-5xl mx-auto py-12 px-4">
-                <div className="border-t border-slate-200">
+                {/* Admin Write Inline Form */}
+                {isWriting && (
+                    <AdminWrite type="results" onClose={() => setIsWriting(false)} onSuccess={handleSuccess} />
+                )}
+
+                <div className="border-t border-slate-200 mt-4">
                     {/* List Header (Hidden on Mobile) */}
                     <div className="hidden md:flex items-center px-6 py-4 bg-slate-50/50 text-xs font-bold text-slate-400 uppercase tracking-wider">
                         <div className="w-24">날짜</div>

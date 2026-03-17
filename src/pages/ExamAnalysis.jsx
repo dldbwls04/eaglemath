@@ -2,32 +2,40 @@ import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { collection, getDocs, orderBy, query } from 'firebase/firestore';
 import { db, auth } from '../firebase';
+import AdminWrite from './AdminWrite';
 import { FileText, Download, ChevronRight, Edit3 } from 'lucide-react';
 
 export default function ExamAnalysis() {
     const [posts, setPosts] = useState([]);
     const [isLoading, setIsLoading] = useState(true);
+    const [isWriting, setIsWriting] = useState(false);
     const isAdmin = auth.currentUser?.email === 'admin@eaglemath.com';
 
-    useEffect(() => {
-        const fetchPosts = async () => {
-            try {
-                const q = query(collection(db, 'exam'), orderBy('date', 'desc'));
-                const querySnapshot = await getDocs(q);
-                const data = querySnapshot.docs.map(doc => ({
-                    id: doc.id,
-                    ...doc.data()
-                }));
-                setPosts(data);
-            } catch (error) {
-                console.error("Error fetching exams:", error);
-            } finally {
-                setIsLoading(false);
-            }
-        };
+    const fetchPosts = async () => {
+        setIsLoading(true);
+        try {
+            const q = query(collection(db, 'exam'), orderBy('date', 'desc'));
+            const querySnapshot = await getDocs(q);
+            const data = querySnapshot.docs.map(doc => ({
+                id: doc.id,
+                ...doc.data()
+            }));
+            setPosts(data);
+        } catch (error) {
+            console.error("Error fetching exams:", error);
+        } finally {
+            setIsLoading(false);
+        }
+    };
 
+    useEffect(() => {
         fetchPosts();
     }, []);
+
+    const handleSuccess = () => {
+        setIsWriting(false);
+        fetchPosts();
+    };
 
     return (
         <div className="bg-white min-h-screen pt-24 pb-12">
@@ -38,16 +46,20 @@ export default function ExamAnalysis() {
                         <h1 className="text-3xl font-bold text-slate-900 mb-2">기출문제 분석</h1>
                         <p className="text-slate-500 font-medium">거점 학교별 기출문제 경향과 대비 전략을 제공합니다</p>
                     </div>
-                    {isAdmin && (
-                        <Link to="/admin/write/exam" className="inline-flex items-center px-6 py-3 bg-[#1e3a8a] text-white font-bold rounded-xl shadow-lg hover:bg-[#1e40af] transition-colors">
+                    {isAdmin && !isWriting && (
+                        <button onClick={() => setIsWriting(true)} className="inline-flex items-center px-6 py-3 bg-[#1e3a8a] text-white font-bold rounded-xl shadow-lg hover:bg-[#1e40af] transition-colors">
                             <Edit3 size={18} className="mr-2" /> 분석글 작성
-                        </Link>
+                        </button>
                     )}
                 </div>
             </div>
 
             {/* List */}
             <div className="max-w-5xl mx-auto py-12 px-4">
+                {isWriting && (
+                    <AdminWrite type="exam" onClose={() => setIsWriting(false)} onSuccess={handleSuccess} />
+                )}
+
                 {isLoading ? (
                     <div className="text-center py-20 text-slate-400 font-bold">불러오는 중...</div>
                 ) : posts.length === 0 ? (
@@ -68,8 +80,15 @@ export default function ExamAnalysis() {
                                         </div>
                                         <h2 className="text-xl font-bold text-slate-900 mb-3">{post.title}</h2>
                                         <p className="text-slate-600 font-medium mb-4">{post.summary}</p>
-                                        <div className="p-4 bg-slate-50 rounded-xl text-sm leading-relaxed text-slate-600 whitespace-pre-wrap">
-                                            {post.content}
+                                        <div className="space-y-4">
+                                            {post.image && (
+                                                <div className="rounded-2xl overflow-hidden shadow-sm border border-slate-100 mb-4 max-w-2xl">
+                                                    <img src={post.image} alt={post.title} className="w-full h-auto" />
+                                                </div>
+                                            )}
+                                            <div className="p-4 bg-slate-50 rounded-xl text-sm leading-relaxed text-slate-600 whitespace-pre-wrap">
+                                                {post.content}
+                                            </div>
                                         </div>
                                     </div>
                                     {post.fileUrl && (

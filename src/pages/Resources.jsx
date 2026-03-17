@@ -3,6 +3,7 @@ import { FileText, Download, Lock, ChevronRight, GraduationCap, Archive, Award, 
 import { Link } from 'react-router-dom';
 import { collection, getDocs, orderBy, query } from 'firebase/firestore';
 import { db, auth } from '../firebase';
+import AdminWrite from './AdminWrite';
 
 const materials = [
     {
@@ -22,30 +23,37 @@ export default function Resources() {
     const [expandedCategory, setExpandedCategory] = useState(null);
     const [items, setItems] = useState(materials);
     const [isLoading, setIsLoading] = useState(true);
+    const [isWriting, setIsWriting] = useState(false);
 
     const isAdmin = auth.currentUser?.email === 'admin@eaglemath.com';
 
-    useEffect(() => {
-        const fetchItems = async () => {
-            try {
-                const q = query(collection(db, 'resources'), orderBy('date', 'desc'));
-                const querySnapshot = await getDocs(q);
-                const firestoreData = querySnapshot.docs.map(doc => ({
-                    id: doc.id,
-                    ...doc.data()
-                }));
-                const merged = [...firestoreData, ...materials].sort((a, b) => new Date(b.date) - new Date(a.date));
-                setItems(merged);
-            } catch (error) {
-                console.error("Error fetching resources:", error);
-                setItems(materials);
-            } finally {
-                setIsLoading(false);
-            }
-        };
+    const fetchItems = async () => {
+        setIsLoading(true);
+        try {
+            const q = query(collection(db, 'resources'), orderBy('date', 'desc'));
+            const querySnapshot = await getDocs(q);
+            const firestoreData = querySnapshot.docs.map(doc => ({
+                id: doc.id,
+                ...doc.data()
+            }));
+            const merged = [...firestoreData, ...materials].sort((a, b) => new Date(b.date) - new Date(a.date));
+            setItems(merged);
+        } catch (error) {
+            console.error("Error fetching resources:", error);
+            setItems(materials);
+        } finally {
+            setIsLoading(false);
+        }
+    };
 
+    useEffect(() => {
         fetchItems();
     }, []);
+
+    const handleSuccess = () => {
+        setIsWriting(false);
+        fetchItems();
+    };
 
     const filteredMaterials = activeFilter.main === "전체"
         ? items
@@ -85,14 +93,18 @@ export default function Resources() {
                         <h1 className="text-4xl font-extrabold text-slate-900 mb-4">학습자료실</h1>
                         <p className="text-lg text-slate-500 font-medium">독수리수학 재원생을 위한 고품격 학습 자료입니다.</p>
                     </div>
-                    {isAdmin && (
+                    {isAdmin && !isWriting && (
                         <div className="text-center md:text-right shrink-0">
-                            <Link to="/admin/write/resources" className="inline-flex items-center px-6 py-3 bg-[#1e3a8a] text-white font-bold rounded-xl shadow-lg hover:bg-[#1e40af] transition-colors">
+                            <button onClick={() => setIsWriting(true)} className="inline-flex items-center px-6 py-3 bg-[#1e3a8a] text-white font-bold rounded-xl shadow-lg hover:bg-[#1e40af] transition-colors">
                                 <Edit3 size={18} className="mr-2" /> 자료 등록
-                            </Link>
+                            </button>
                         </div>
                     )}
                 </div>
+
+                {isWriting && (
+                    <AdminWrite type="resources" onClose={() => setIsWriting(false)} onSuccess={handleSuccess} />
+                )}
 
                 <div className="flex flex-col lg:flex-row gap-12">
                     {/* Sidebar Filter */}
@@ -193,9 +205,19 @@ export default function Resources() {
                                                         </span>
                                                     )}
                                                 </div>
-                                                <h3 className="text-xl font-extrabold text-slate-900 group-hover:text-[#1e3a8a] transition-colors leading-tight">
+                                                <h3 className="text-xl font-extrabold text-slate-900 group-hover:text-[#1e3a8a] transition-colors leading-tight mb-3">
                                                     {item.title}
                                                 </h3>
+                                                {item.image && (
+                                                    <div className="rounded-2xl overflow-hidden shadow-sm border border-slate-100 mb-4 max-w-lg">
+                                                        <img src={item.image} alt={item.title} className="w-full h-auto" />
+                                                    </div>
+                                                )}
+                                                {item.content && (
+                                                    <p className="text-sm text-slate-500 font-medium leading-relaxed whitespace-pre-wrap">
+                                                        {item.content}
+                                                    </p>
+                                                )}
                                             </div>
                                             <a
                                                 href={item.fileUrl}

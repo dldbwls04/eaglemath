@@ -3,6 +3,7 @@ import { ChevronDown, ChevronUp, MessageCircle, Edit3, Loader2 } from 'lucide-re
 import { Link } from 'react-router-dom';
 import { collection, getDocs, orderBy, query } from 'firebase/firestore';
 import { db, auth } from '../firebase';
+import AdminWrite from './AdminWrite';
 
 const logs = [
     {
@@ -78,35 +79,49 @@ export default function CounselingLogs() {
     const [openId, setOpenId] = useState(null);
     const [posts, setPosts] = useState(logs);
     const [isLoading, setIsLoading] = useState(true);
+    const [isWriting, setIsWriting] = useState(false);
     const isAdmin = auth.currentUser?.email === 'admin@eaglemath.com';
 
-    useEffect(() => {
-        const fetchPosts = async () => {
-            try {
-                const q = query(collection(db, 'counseling'), orderBy('date', 'desc'));
-                const querySnapshot = await getDocs(q);
-                const firestoreData = querySnapshot.docs.map(doc => ({
-                    id: doc.id,
-                    ...doc.data(),
-                    // Firestore string content rendered as paragraph
-                    content: (
+    const fetchPosts = async () => {
+        setIsLoading(true);
+        try {
+            const q = query(collection(db, 'counseling'), orderBy('date', 'desc'));
+            const querySnapshot = await getDocs(q);
+            const firestoreData = querySnapshot.docs.map(doc => ({
+                id: doc.id,
+                ...doc.data(),
+                // Firestore string content rendered as paragraph
+                content: (
+                    <div className="space-y-6">
+                        {doc.data().image && (
+                            <div className="rounded-2xl overflow-hidden shadow-sm border border-slate-100 mb-6 max-w-2xl">
+                                <img src={doc.data().image} alt={doc.data().title} className="w-full h-auto" />
+                            </div>
+                        )}
                         <div className="space-y-4 text-slate-600 leading-relaxed text-sm md:text-base whitespace-pre-line">
                             {doc.data().content}
                         </div>
-                    )
-                }));
-                const merged = [...firestoreData, ...logs].sort((a, b) => new Date(b.date) - new Date(a.date));
-                setPosts(merged);
-            } catch (error) {
-                console.error("Error fetching logs:", error);
-                setPosts(logs);
-            } finally {
-                setIsLoading(false);
-            }
-        };
+                    </div>
+                )
+            }));
+            const merged = [...firestoreData, ...logs].sort((a, b) => new Date(b.date) - new Date(a.date));
+            setPosts(merged);
+        } catch (error) {
+            console.error("Error fetching logs:", error);
+            setPosts(logs);
+        } finally {
+            setIsLoading(false);
+        }
+    };
 
+    useEffect(() => {
         fetchPosts();
     }, []);
+
+    const handleSuccess = () => {
+        setIsWriting(false);
+        fetchPosts();
+    };
 
     return (
         <div className="min-h-screen bg-white">
@@ -120,11 +135,11 @@ export default function CounselingLogs() {
                             독수리수학이 학부모님들과 나누었던 수학 교육의 고민과<br className="md:hidden" /> 확실한 성적 향상의 솔루션을 공유합니다.
                         </p>
                     </div>
-                    {isAdmin && (
+                    {isAdmin && !isWriting && (
                         <div className="text-center md:text-right shrink-0">
-                            <Link to="/admin/write/counseling" className="inline-flex items-center px-6 py-3 bg-[#1e3a8a] text-white font-bold rounded-xl shadow-lg hover:bg-[#1e40af] transition-colors">
+                            <button onClick={() => setIsWriting(true)} className="inline-flex items-center px-6 py-3 bg-[#1e3a8a] text-white font-bold rounded-xl shadow-lg hover:bg-[#1e40af] transition-colors">
                                 <Edit3 size={18} className="mr-2" /> 일기 쓰기
-                            </Link>
+                            </button>
                         </div>
                     )}
                 </div>
@@ -133,6 +148,11 @@ export default function CounselingLogs() {
             {/* Logs List */}
             <section className="py-8">
                 <div className="max-w-5xl mx-auto px-4 md:px-8">
+                    {/* Admin Write Inline Form */}
+                    {isWriting && (
+                        <AdminWrite type="counseling" onClose={() => setIsWriting(false)} onSuccess={handleSuccess} />
+                    )}
+
                     <div className="divide-y divide-slate-100 border-t border-slate-100">
                         {isLoading ? (
                             <div className="py-20 text-center text-slate-400 font-bold flex flex-col items-center justify-center">
