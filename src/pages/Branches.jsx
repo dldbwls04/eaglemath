@@ -4,7 +4,7 @@ import { MapPin, ExternalLink, ChevronDown } from 'lucide-react';
 const branches = [
     {
         id: 1,
-        name: "독수리수학 신길",
+        name: "독수리수학 신길본원",
         address: "서울특별시 영등포구 신길로28가길 20 1층",
         mapImage: "/images/branches/map_shingil.png",
         kakaoLink: "https://kko.to/qpjP9CxeuA",
@@ -12,7 +12,7 @@ const branches = [
     },
     {
         id: 3,
-        name: "독수리수학 도림본원",
+        name: "독수리수학 도림",
         address: "서울특별시 영등포구 도신로 65 동연빌딩 2층",
         mapImage: "/images/branches/map_dorim.png",
         kakaoLink: "https://kko.to/bxYONmRmmH",
