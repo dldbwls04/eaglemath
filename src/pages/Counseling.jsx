@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
-import { CheckCircle2, AlertCircle, ChevronDown, Send } from 'lucide-react';
+import { CheckCircle2, AlertCircle, ChevronDown, Send, Loader2 } from 'lucide-react';
+import emailjs from '@emailjs/browser';
 
 export default function Counseling() {
     const [formData, setFormData] = useState({
@@ -17,6 +18,7 @@ export default function Counseling() {
 
     const [errors, setErrors] = useState({});
     const [submitted, setSubmitted] = useState(false);
+    const [isSubmitting, setIsSubmitting] = useState(false);
 
     const validate = () => {
         const newErrors = {};
@@ -33,8 +35,26 @@ export default function Counseling() {
 
     const handleChange = (e) => {
         const { name, value } = e.target;
+        
         if (name === 'content' && value.length > 1000) return;
-        setFormData(prev => ({ ...prev, [name]: value }));
+
+        // 연락처(contact) 자동 하이픈 로직
+        if (name === 'contact') {
+            const phoneNumber = value.replace(/[^0-9]/g, '');
+            let formattedNumber = '';
+            
+            if (phoneNumber.length <= 3) {
+                formattedNumber = phoneNumber;
+            } else if (phoneNumber.length <= 7) {
+                formattedNumber = `${phoneNumber.slice(0, 3)}-${phoneNumber.slice(3)}`;
+            } else {
+                formattedNumber = `${phoneNumber.slice(0, 3)}-${phoneNumber.slice(3, 7)}-${phoneNumber.slice(7, 11)}`;
+            }
+            
+            setFormData(prev => ({ ...prev, [name]: formattedNumber }));
+        } else {
+            setFormData(prev => ({ ...prev, [name]: value }));
+        }
 
         // Clear error when user starts typing
         if (errors[name]) {
@@ -42,15 +62,40 @@ export default function Counseling() {
         }
     };
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
         if (validate()) {
-            console.log('Submitting to 010-8229-7963:', formData);
-            // Simulate API call
-            setTimeout(() => {
+            setIsSubmitting(true);
+            try {
+                // EmailJS 연동 정보
+                const serviceId = 'service_z49hldr';
+                const templateId = 'template_t5jnith';
+                const publicKey = 'GEih1O4Sd8hqoSlKc';
+
+                // 이메일로 보낼 데이터 정리
+                const templateParams = {
+                    studentName: formData.studentName,
+                    grade: formData.grade,
+                    email: formData.email,
+                    content: formData.content,
+                    branch: formData.branch,
+                    schoolName: formData.schoolName,
+                    contact: formData.contact,
+                    type: formData.type,
+                    referral: formData.referral,
+                    referralDetail: formData.referralDetail
+                };
+
+                await emailjs.send(serviceId, templateId, templateParams, publicKey);
+                
                 setSubmitted(true);
                 window.scrollTo({ top: 0, behavior: 'smooth' });
-            }, 500);
+            } catch (error) {
+                console.error('Email sending failed:', error);
+                alert('상담 신청 중 오류가 발생했습니다. 다시 시도해 주세요.');
+            } finally {
+                setIsSubmitting(false);
+            }
         }
     };
 
@@ -283,10 +328,20 @@ export default function Counseling() {
                     <div className="flex justify-center pt-6">
                         <button
                             type="submit"
-                            className="group w-full max-w-lg py-5 bg-[#0f172a] text-white font-bold text-xl rounded-2xl shadow-xl hover:bg-black hover:scale-[1.02] active:scale-[0.98] transition-all flex items-center justify-center space-x-3"
+                            disabled={isSubmitting}
+                            className={`group w-full max-w-lg py-5 ${isSubmitting ? 'bg-slate-400' : 'bg-[#0f172a] hover:bg-black'} text-white font-bold text-xl rounded-2xl shadow-xl hover:scale-[1.02] active:scale-[0.98] transition-all flex items-center justify-center space-x-3`}
                         >
-                            <span>상담 신청하기</span>
-                            <Send className="w-5 h-5 group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform" />
+                            {isSubmitting ? (
+                                <>
+                                    <Loader2 className="w-5 h-5 animate-spin" />
+                                    <span>신청 중...</span>
+                                </>
+                            ) : (
+                                <>
+                                    <span>상담 신청하기</span>
+                                    <Send className="w-5 h-5 group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform" />
+                                </>
+                            )}
                         </button>
                     </div>
                 </form>
