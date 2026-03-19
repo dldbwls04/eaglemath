@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useLocation, Link } from 'react-router-dom';
-import { ChevronDown, ChevronRight, GraduationCap, BookOpen, Calendar, Phone, Info, ShieldCheck } from 'lucide-react';
+import { ChevronDown, ChevronRight, GraduationCap, BookOpen, Calendar, Phone, Info, ShieldCheck, Users } from 'lucide-react';
 import { onAuthStateChanged, signOut } from 'firebase/auth';
 import { auth } from '../../firebase';
 
@@ -40,6 +40,14 @@ const navItems = [
         path: "/resources",
         icon: <BookOpen size={18} />,
         submenu: [
+            { 
+                title: "게시판", 
+                path: "/resources/board",
+                nested: [
+                    { title: "공지사항", path: "/resources/notice" },
+                    { title: "자유게시판", path: "/resources/free-board" },
+                ]
+            },
             { title: "상담일기", path: "/resources/counseling-logs" },
             { title: "기출문제 분석", path: "/resources/exam-analysis" },
             { title: "학습자료실", path: "/resources/materials" },
@@ -52,6 +60,14 @@ const navItems = [
         submenu: [
             { title: "입학안내", path: "/contact/admission" },
             { title: "상담신청", path: "/contact/counseling" },
+        ]
+    },
+    {
+        title: "파트너제휴",
+        path: "/partnership",
+        icon: <Users size={18} />,
+        submenu: [
+            { title: "신규선생님 채용", path: "/partnership/recruitment" },
         ]
     }
 ];
@@ -206,12 +222,6 @@ export default function Navbar() {
                         <div className="pl-4 border-l border-slate-200">
                             {isAuthenticated ? (
                                 <div className="flex items-center space-x-4">
-                                    {isAdmin && (
-                                        <div className="flex items-center space-x-1.5 px-3 py-1 bg-amber-50 border border-amber-200 rounded-full">
-                                            <ShieldCheck size={14} className="text-amber-600" />
-                                            <span className="text-[11px] font-black text-amber-700 uppercase tracking-wider">Admin Mode</span>
-                                        </div>
-                                    )}
                                     <button
                                         onClick={handleLogout}
                                         className="px-5 py-2 text-sm font-bold text-slate-600 border border-slate-300 rounded hover:bg-slate-50 transition-all shadow-sm"
@@ -381,6 +391,21 @@ export default function Navbar() {
                     </div>
                 </div>
             </div>
+            {/* Admin Badge - Floating Desktop Version */}
+            {isAdmin && (
+                <div className="hidden lg:flex fixed bottom-10 right-10 z-[100] items-center space-x-3 px-4 py-3 bg-white/95 backdrop-blur-sm border border-amber-200 rounded-2xl shadow-2xl hover:translate-y-[-4px] transition-all cursor-default group select-none">
+                    <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-amber-50 text-amber-600 group-hover:bg-amber-100 transition-colors">
+                        <ShieldCheck size={24} />
+                    </div>
+                    <div className="flex flex-col pr-2">
+                        <div className="flex items-center space-x-1">
+                            <div className="h-1.5 w-1.5 rounded-full bg-amber-500 animate-pulse"></div>
+                            <span className="text-[10px] font-bold text-amber-600 uppercase tracking-wider">System Active</span>
+                        </div>
+                        <span className="text-sm font-black text-slate-800">Admin Mode</span>
+                    </div>
+                </div>
+            )}
         </nav>
     );
 }

@@ -82,9 +82,9 @@ export default function AdminWrite({ type, onSuccess, onClose }) {
                 specifics.image = uploadedImageUrl;
             }
 
-            await addDoc(collection(db, type), { ...commonData, ...specifics });
+            // Instant registration with background sync
+            addDoc(collection(db, type), { ...commonData, ...specifics });
             
-            alert('등록이 완료되었습니다.');
             if (onSuccess) onSuccess();
             if (onClose) onClose();
         } catch (error) {

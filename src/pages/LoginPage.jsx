@@ -70,7 +70,9 @@ export default function LoginPage() {
                         <LogIn size={32} />
                     </div>
                     <h2 className="text-3xl font-bold text-slate-900">독수리수학 로그인</h2>
-                    <p className="text-slate-500 mt-2 font-medium">학습자료실 이용을 위해 로그인해주세요.</p>
+                    <p className="text-slate-500 mt-2 font-medium">
+                        {from.includes('free-board') ? '자유게시판' : '학습자료실'} 이용을 위해 로그인해주세요.
+                    </p>
                 </div>
 
                 {/* Form */}

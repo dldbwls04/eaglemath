@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Routes, Route, Navigate, useLocation } from 'react-router-dom';
 import { onAuthStateChanged } from 'firebase/auth';
+import { useAuthState } from 'react-firebase-hooks/auth';
 import { auth } from './firebase';
 import Layout from './components/Layout/Layout';
 import ScrollToTop from './components/ScrollToTop';
@@ -22,6 +23,13 @@ import Programs from './pages/Programs';
 import Admission from './pages/Admission';
 import CounselingLogs from './pages/CounselingLogs';
 import ExamAnalysis from './pages/ExamAnalysis';
+import Recruitment from './pages/Recruitment';
+import FreeBoard from './pages/FreeBoard';
+import NoticeBoard from './pages/NoticeBoard';
+import NoticeBoardWrite from './pages/NoticeBoardWrite';
+import NoticeBoardDetail from './pages/NoticeBoardDetail';
+import FreeBoardWrite from './pages/FreeBoardWrite';
+import FreeBoardDetail from './pages/FreeBoardDetail';
 
 // Firebase Auth 기반 ProtectedRoute
 const ProtectedRoute = ({ children }) => {
@@ -46,9 +54,20 @@ const ProtectedRoute = ({ children }) => {
   }
 
   if (!authState.user) {
-    return <Navigate to="/login" state={{ from: location.pathname }} replace />;
+    return <Navigate to="/login" replace state={{ from: window.location.pathname }} />;
   }
 
+  return children;
+};
+
+// 관리자 전용 Route
+const AdminRoute = ({ children }) => {
+  const [user, loading] = useAuthState(auth);
+  if (loading) return null;
+  if (!user || user.email !== 'admin@eaglemath.com') {
+    alert('관리자 권한이 필요합니다.');
+    return <Navigate to="/" replace />;
+  }
   return children;
 };
 
@@ -91,6 +110,21 @@ function App() {
 
           {/* Resources Routes */}
           <Route path="resources" element={<PagePlaceholder title="학습자료" />} />
+          <Route path="resources/board" element={<PagePlaceholder title="게시판" />} />
+          <Route path="resources/notice" element={<NoticeBoard />} />
+          <Route path="resources/notice/:id" element={<NoticeBoardDetail />} />
+          <Route path="resources/notice/write" element={
+            <AdminRoute>
+              <NoticeBoardWrite />
+            </AdminRoute>
+          } />
+          <Route path="resources/free-board" element={<FreeBoard />} />
+          <Route path="resources/free-board/:id" element={<FreeBoardDetail />} />
+          <Route path="resources/free-board/write" element={
+            <ProtectedRoute>
+              <FreeBoardWrite />
+            </ProtectedRoute>
+          } />
           <Route path="resources/counseling-logs" element={<CounselingLogs />} />
           <Route path="resources/exam-analysis" element={<ExamAnalysis />} />
           <Route path="resources/materials" element={
@@ -103,6 +137,10 @@ function App() {
           <Route path="contact" element={<PagePlaceholder title="예약 & 문의" />} />
           <Route path="contact/admission" element={<Admission />} />
           <Route path="contact/counseling" element={<Counseling />} />
+
+          {/* Partnership Routes */}
+          <Route path="partnership" element={<PagePlaceholder title="파트너제휴" />} />
+          <Route path="partnership/recruitment" element={<Recruitment />} />
 
           {/* 404 */}
           <Route path="*" element={<PagePlaceholder title="페이지를 찾을 수 없습니다" />} />
