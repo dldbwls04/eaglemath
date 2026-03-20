@@ -1,14 +1,46 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import { db } from '../firebase';
-import { doc, onSnapshot, updateDoc, increment } from 'firebase/firestore';
-import { ChevronLeft, User, Clock, Eye, Megaphone, Share2, MoreVertical, Loader2 } from 'lucide-react';
+import { db, auth } from '../firebase';
+import { doc, onSnapshot, updateDoc, increment, deleteDoc } from 'firebase/firestore';
+import { useAuthState } from 'react-firebase-hooks/auth';
+import { ChevronLeft, User, Clock, Eye, Megaphone, Share2, Loader2, Pencil, Trash2, Check } from 'lucide-react';
 
 export default function NoticeBoardDetail() {
   const { id } = useParams();
   const navigate = useNavigate();
+  const [user] = useAuthState(auth);
   const [notice, setNotice] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
+
+  const isAdmin = user?.email === 'admin@eaglemath.com';
+  const [copied, setCopied] = useState(false);
+
+  const handleShare = async () => {
+    try {
+      await navigator.clipboard.writeText(window.location.href);
+    } catch {
+      // fallback
+      const el = document.createElement('textarea');
+      el.value = window.location.href;
+      document.body.appendChild(el);
+      el.select();
+      document.execCommand('copy');
+      document.body.removeChild(el);
+    }
+    setCopied(true);
+    setTimeout(() => setCopied(false), 2000);
+  };
+
+  const handleDelete = async () => {
+    if (!window.confirm('정말로 이 공지사항을 삭제하시겠습니까?')) return;
+    try {
+      await deleteDoc(doc(db, 'notices', id));
+      navigate('/resources/notice');
+    } catch (err) {
+      console.error('삭제 오류:', err);
+      alert('삭제 중 오류가 발생했습니다.');
+    }
+  };
 
   useEffect(() => {
     // onSnapshot을 사용하여 캐시된 데이터를 즉각 활용 (로딩 속도 극대화)
@@ -49,16 +81,32 @@ export default function NoticeBoardDetail() {
       <div className="max-w-4xl mx-auto px-4">
         {/* Navigation */}
         <div className="mb-6 flex justify-between items-center">
-          <button 
+          <button
             onClick={() => navigate('/resources/notice')}
             className="flex items-center gap-1 text-slate-500 hover:text-slate-800 transition-colors font-bold text-sm"
           >
             <ChevronLeft size={18} />
             목록으로 돌아가기
           </button>
-          <button className="p-2 text-slate-400 hover:text-slate-600 transition-colors">
-            <MoreVertical size={20} />
-          </button>
+          {/* 관리자 수정/삭제 버튼 */}
+          {isAdmin && (
+            <div className="flex items-center gap-2">
+              <button
+                onClick={() => navigate(`/resources/notice/${id}/edit`)}
+                className="flex items-center gap-1.5 px-4 py-2 text-sm font-bold text-slate-600 border border-slate-200 rounded-xl hover:bg-slate-50 transition-colors"
+              >
+                <Pencil size={14} />
+                수정
+              </button>
+              <button
+                onClick={handleDelete}
+                className="flex items-center gap-1.5 px-4 py-2 text-sm font-bold text-red-500 border border-red-100 rounded-xl hover:bg-red-50 transition-colors"
+              >
+                <Trash2 size={14} />
+                삭제
+              </button>
+            </div>
+          )}
         </div>
 
         {/* Notice Card */}
@@ -88,10 +136,15 @@ export default function NoticeBoardDetail() {
                 </div>
               </div>
               <div className="flex items-center gap-2">
-                 <button className="p-2 px-4 border border-slate-200 rounded-xl text-slate-600 font-bold text-sm hover:bg-slate-50 transition-colors flex items-center gap-2">
-                   <Share2 size={16} />
-                   <span>공유</span>
-                 </button>
+                 <button
+                 onClick={handleShare}
+                 className={`p-2 px-4 border rounded-xl font-bold text-sm hover:bg-slate-50 transition-colors flex items-center gap-2 ${
+                   copied ? 'border-green-200 text-green-600 bg-green-50' : 'border-slate-200 text-slate-600'
+                 }`}
+               >
+                 {copied ? <Check size={16} /> : <Share2 size={16} />}
+                 <span>{copied ? '링크 복사됨!' : '공유'}</span>
+               </button>
               </div>
             </div>
           </div>

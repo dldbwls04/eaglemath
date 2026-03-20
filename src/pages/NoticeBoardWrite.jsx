@@ -37,9 +37,7 @@ export default function NoticeBoardWrite() {
     e.preventDefault();
     setIsSubmitting(true);
     try {
-        // We don't wait for server confirmation to make the UI feel instant
-        // Since we removed 'orderBy' in the list view, the new post will show up immediately
-        addDoc(collection(db, 'notices'), {
+        await addDoc(collection(db, 'notices'), {
             title,
             content,
             author: '독수리수학',

@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { db } from '../firebase';
-import { doc, onSnapshot, updateDoc, increment, collection, addDoc, serverTimestamp, query, orderBy } from 'firebase/firestore';
+import { doc, onSnapshot, updateDoc, increment, collection, addDoc, serverTimestamp, query, orderBy, deleteDoc, arrayUnion, arrayRemove } from 'firebase/firestore';
 import { useAuthState } from 'react-firebase-hooks/auth';
 import { auth } from '../firebase';
-import { ChevronLeft, User, Clock, Eye, MessageSquare, Share2, MoreVertical, ThumbsUp, Send, Loader2 } from 'lucide-react';
+import { ChevronLeft, User, Clock, Eye, MessageSquare, Share2, ThumbsUp, Send, Loader2, Pencil, Trash2, Check } from 'lucide-react';
 
 export default function FreeBoardDetail() {
   const { id } = useParams();
@@ -53,6 +53,52 @@ export default function FreeBoardDetail() {
       unsubscribeComments();
     };
   }, [id, navigate]);
+
+  const isAuthor = user && post && user.email === post.authorEmail;
+  // 좋아요: likes 필드는 유저 이메일 배열
+  const likedByMe = user && Array.isArray(post?.likes) && post.likes.includes(user.email);
+  const likeCount = Array.isArray(post?.likes) ? post.likes.length : (post?.likes || 0);
+  const [copied, setCopied] = useState(false);
+
+  const handleLike = async () => {
+    if (!user) {
+      alert('로그인 후 좋아요를 누를 수 있습니다.');
+      navigate('/login');
+      return;
+    }
+    const postRef = doc(db, 'freeBoardPosts', id);
+    if (likedByMe) {
+      await updateDoc(postRef, { likes: arrayRemove(user.email) });
+    } else {
+      await updateDoc(postRef, { likes: arrayUnion(user.email) });
+    }
+  };
+
+  const handleShare = async () => {
+    try {
+      await navigator.clipboard.writeText(window.location.href);
+    } catch {
+      const el = document.createElement('textarea');
+      el.value = window.location.href;
+      document.body.appendChild(el);
+      el.select();
+      document.execCommand('copy');
+      document.body.removeChild(el);
+    }
+    setCopied(true);
+    setTimeout(() => setCopied(false), 2000);
+  };
+
+  const handleDelete = async () => {
+    if (!window.confirm('정말로 이 게시글을 삭제하시겠습니까?')) return;
+    try {
+      await deleteDoc(doc(db, 'freeBoardPosts', id));
+      navigate('/resources/free-board');
+    } catch (err) {
+      console.error('삭제 오류:', err);
+      alert('삭제 중 오류가 발생했습니다.');
+    }
+  };
 
   const handleAddComment = async (e) => {
     e.preventDefault();
@@ -108,16 +154,32 @@ export default function FreeBoardDetail() {
       <div className="max-w-4xl mx-auto px-4">
         {/* Navigation */}
         <div className="mb-6 flex justify-between items-center">
-          <button 
+          <button
             onClick={() => navigate('/resources/free-board')}
             className="flex items-center gap-1 text-slate-500 hover:text-slate-800 transition-colors font-bold text-sm"
           >
             <ChevronLeft size={18} />
             목록으로 돌아가기
           </button>
-          <button className="p-2 text-slate-400 hover:text-slate-600 transition-colors">
-            <MoreVertical size={20} />
-          </button>
+          {/* 수정/삭제 버튼 - 본인 글만 표시 */}
+          {isAuthor && (
+            <div className="flex items-center gap-2">
+              <button
+                onClick={() => navigate(`/resources/free-board/${id}/edit`)}
+                className="flex items-center gap-1.5 px-4 py-2 text-sm font-bold text-slate-600 border border-slate-200 rounded-xl hover:bg-slate-50 transition-colors"
+              >
+                <Pencil size={14} />
+                수정
+              </button>
+              <button
+                onClick={handleDelete}
+                className="flex items-center gap-1.5 px-4 py-2 text-sm font-bold text-red-500 border border-red-100 rounded-xl hover:bg-red-50 transition-colors"
+              >
+                <Trash2 size={14} />
+                삭제
+              </button>
+            </div>
+          )}
         </div>
 
         {/* Article Card */}
@@ -148,9 +210,14 @@ export default function FreeBoardDetail() {
                 </div>
               </div>
               <div className="flex items-center gap-2">
-                 <button className="p-2 px-4 border border-slate-200 rounded-xl text-slate-600 font-bold text-sm hover:bg-slate-50 transition-colors flex items-center gap-2">
-                   <Share2 size={16} />
-                   <span>공유</span>
+                 <button
+                   onClick={handleShare}
+                   className={`p-2 px-4 border rounded-xl font-bold text-sm hover:bg-slate-50 transition-colors flex items-center gap-2 ${
+                     copied ? 'border-green-200 text-green-600 bg-green-50' : 'border-slate-200 text-slate-600'
+                   }`}
+                 >
+                   {copied ? <Check size={16} /> : <Share2 size={16} />}
+                   <span>{copied ? '링크 복사됨!' : '공유'}</span>
                  </button>
               </div>
             </div>
@@ -164,11 +231,18 @@ export default function FreeBoardDetail() {
 
           <div className="px-8 py-6 bg-slate-50 border-t border-slate-100 flex items-center justify-between">
              <div className="flex items-center gap-6">
-                <button className="flex items-center gap-2 text-slate-500 hover:text-blue-600 transition-colors font-bold text-sm">
-                  <ThumbsUp size={18} />
-                  좋아요 {post.likes || 0}
+                <button
+                  onClick={handleLike}
+                  className={`flex items-center gap-2 font-bold text-sm transition-all active:scale-95 ${
+                    likedByMe
+                      ? 'text-blue-600'
+                      : 'text-slate-500 hover:text-blue-600'
+                  }`}
+                >
+                  <ThumbsUp size={18} className={likedByMe ? 'fill-blue-500 text-blue-500' : ''} />
+                  좋아요 {likeCount}
                 </button>
-                <button className="flex items-center gap-2 text-slate-500 hover:text-blue-600 transition-colors font-bold text-sm">
+                <button className="flex items-center gap-2 text-slate-500 font-bold text-sm">
                   <MessageSquare size={18} />
                   댓글 {post.comments || 0}
                 </button>

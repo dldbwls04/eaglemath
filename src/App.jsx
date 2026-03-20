@@ -28,8 +28,10 @@ import FreeBoard from './pages/FreeBoard';
 import NoticeBoard from './pages/NoticeBoard';
 import NoticeBoardWrite from './pages/NoticeBoardWrite';
 import NoticeBoardDetail from './pages/NoticeBoardDetail';
+import NoticeBoardEdit from './pages/NoticeBoardEdit';
 import FreeBoardWrite from './pages/FreeBoardWrite';
 import FreeBoardDetail from './pages/FreeBoardDetail';
+import FreeBoardEdit from './pages/FreeBoardEdit';
 
 // Firebase Auth 기반 ProtectedRoute
 const ProtectedRoute = ({ children }) => {
@@ -113,6 +115,11 @@ function App() {
           <Route path="resources/board" element={<PagePlaceholder title="게시판" />} />
           <Route path="resources/notice" element={<NoticeBoard />} />
           <Route path="resources/notice/:id" element={<NoticeBoardDetail />} />
+          <Route path="resources/notice/:id/edit" element={
+            <AdminRoute>
+              <NoticeBoardEdit />
+            </AdminRoute>
+          } />
           <Route path="resources/notice/write" element={
             <AdminRoute>
               <NoticeBoardWrite />
@@ -120,6 +127,11 @@ function App() {
           } />
           <Route path="resources/free-board" element={<FreeBoard />} />
           <Route path="resources/free-board/:id" element={<FreeBoardDetail />} />
+          <Route path="resources/free-board/:id/edit" element={
+            <ProtectedRoute>
+              <FreeBoardEdit />
+            </ProtectedRoute>
+          } />
           <Route path="resources/free-board/write" element={
             <ProtectedRoute>
               <FreeBoardWrite />

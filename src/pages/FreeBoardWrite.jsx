@@ -21,9 +21,7 @@ export default function FreeBoardWrite() {
 
     setIsSubmitting(true);
     try {
-        // Instant submission to make UX better
-        // We already have client-side sorting in FreeBoard.jsx, so the post will appear instantly
-        addDoc(collection(db, 'freeBoardPosts'), {
+        await addDoc(collection(db, 'freeBoardPosts'), {
             title,
             category,
             content,

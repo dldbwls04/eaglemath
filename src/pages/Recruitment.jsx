@@ -1,7 +1,101 @@
-import React from 'react';
-import { Users, Briefcase, GraduationCap, Trophy, CheckCircle, Mail, MapPin, Phone } from 'lucide-react';
+import React, { useState } from 'react';
+import { Users, Briefcase, GraduationCap, Trophy, CheckCircle, Mail, MapPin, Phone, Loader2, CheckCircle2, AlertCircle, Send } from 'lucide-react';
+import emailjs from '@emailjs/browser';
 
 export default function Recruitment() {
+  const [formData, setFormData] = useState({
+    name: '',
+    birthDate: '',
+    contact: '',
+    subject: '',
+    fields: [], // 초등, 중등, 고등, 행정
+    address: '',
+    education: ''
+  });
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [submitted, setSubmitted] = useState(false);
+
+  const handleChange = (e) => {
+    const { name, value, type, checked } = e.target;
+    
+    if (type === 'checkbox') {
+      const updatedFields = checked 
+        ? [...formData.fields, value]
+        : formData.fields.filter(f => f !== value);
+      setFormData(prev => ({ ...prev, fields: updatedFields }));
+    } else if (name === 'contact') {
+      // 핸드폰 번호 자동 하이픈
+      const phoneNumber = value.replace(/[^0-9]/g, '');
+      let formattedNumber = '';
+      if (phoneNumber.length <= 3) formattedNumber = phoneNumber;
+      else if (phoneNumber.length <= 7) formattedNumber = `${phoneNumber.slice(0, 3)}-${phoneNumber.slice(3)}`;
+      else formattedNumber = `${phoneNumber.slice(0, 3)}-${phoneNumber.slice(3, 7)}-${phoneNumber.slice(7, 11)}`;
+      setFormData(prev => ({ ...prev, [name]: formattedNumber }));
+    } else {
+      setFormData(prev => ({ ...prev, [name]: value }));
+    }
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    if (!formData.name || !formData.contact || !formData.subject) {
+      alert('필수 항목(성함, 연락처, 지원과목)을 입력해주세요.');
+      return;
+    }
+
+    setIsSubmitting(true);
+    try {
+      const serviceId = 'service_fmr8m2b';
+      const templateId = 'template_ymcjyrg';
+      const publicKey = 'GEih1O4Sd8hqoSlKc';
+
+      const templateParams = {
+        name: formData.name,
+        birthDate: formData.birthDate,
+        contact: formData.contact,
+        subject: formData.subject,
+        fields: formData.fields.join(', '),
+        address: formData.address,
+        education: formData.education,
+        time: new Date().toLocaleString('ko-KR')
+      };
+
+      await emailjs.send(serviceId, templateId, templateParams, publicKey);
+      setSubmitted(true);
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    } catch (error) {
+      console.error('Email sending failed:', error);
+      alert('지원서 제출 중 오류가 발생했습니다. 잠시 후 다시 시도해 주세요.');
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
+
+  if (submitted) {
+    return (
+      <div className="bg-slate-50 min-h-screen pt-24 pb-20 px-4">
+        <div className="max-w-4xl mx-auto">
+          <div className="bg-white p-12 rounded-[2.5rem] shadow-xl border border-slate-100 flex flex-col items-center text-center">
+            <div className="w-20 h-20 bg-green-50 rounded-full flex items-center justify-center mb-6">
+              <CheckCircle2 className="w-12 h-12 text-green-500" />
+            </div>
+            <h2 className="text-3xl font-extrabold text-slate-900 mb-4">지원서 제출 완료</h2>
+            <p className="text-slate-600 text-lg mb-8 leading-relaxed">
+              독수리수학에 지원해주셔서 감사합니다.<br />
+              제출해주신 서류를 꼼꼼히 검토한 후 개별적으로 연락드리겠습니다.
+            </p>
+            <button
+              onClick={() => window.location.href = '/'}
+              className="px-10 py-4 bg-[#172554] text-white font-bold rounded-xl hover:bg-black transition-all shadow-lg"
+            >
+              메인으로 돌아가기
+            </button>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
   return (
     <div className="bg-slate-50 min-h-screen">
       {/* Hero Section */}
@@ -34,9 +128,7 @@ export default function Recruitment() {
           </div>
 
           <div className="relative">
-            {/* Connection Line (Desktop) */}
             <div className="hidden md:block absolute top-1/2 left-0 w-full h-0.5 bg-blue-100 -translate-y-1/2 z-0"></div>
-            
             <div className="grid md:grid-cols-4 gap-8 relative z-10">
               {[
                 { step: "01", title: "서류전형", desc: "이력서 및 자기소개서 검토" },
@@ -72,7 +164,7 @@ export default function Recruitment() {
                   <div>
                     <h4 className="font-bold text-slate-900 mb-1">지원 자격</h4>
                     <p className="text-slate-600 font-medium">4년제 대학 졸업 이상 (졸업예정자 가능)</p>
-                    <p className="text-slate-600 font-medium">해당 분야 및 과목의 교과 분석 및 학생 지도 가능자</p>
+                    <p className="text-slate-600 font-medium font-outfit">해당 분야 및 과목의 교과 분석 및 학생 지도 가능자</p>
                   </div>
                 </div>
 
@@ -81,89 +173,149 @@ export default function Recruitment() {
                     <CheckCircle size={18} />
                   </div>
                   <div>
-                    <h4 className="font-bold text-slate-900 mb-1">우대 사항</h4>
-                    <p className="text-slate-600 font-medium">유관업무 경력자</p>
-                    <p className="text-slate-600 font-medium">학생 관리에 강점이 있으며 열정이 넘치시는 분</p>
-                    <p className="text-slate-600 font-medium">기초부터 심화까지 수준별 맞춤 지도 역량 보유자</p>
+                    <h4 className="font-bold text-slate-900 mb-1 font-outfit">우대 사항</h4>
+                    <p className="text-slate-600 font-medium font-outfit">유관업무 경력자</p>
+                    <p className="text-slate-600 font-medium font-outfit">학생 관리에 강점이 있으며 열정이 넘치시는 분</p>
+                    <p className="text-slate-600 font-medium font-outfit">기초부터 심화까지 수준별 맞춤 지도 역량 보유자</p>
                   </div>
                 </div>
               </div>
             </div>
 
-            <div className="bg-white p-8 rounded-2xl shadow-xl border border-slate-100">
-              <h3 className="text-2xl font-black text-slate-900 mb-6 flex items-center space-x-2">
-                <Mail className="text-[#172554]" />
+            <div className="bg-white p-8 md:p-10 rounded-[2.5rem] shadow-xl border border-slate-100 relative overflow-hidden">
+               <div className="absolute top-0 left-0 w-2 h-full bg-[#172554]"></div>
+              <h3 className="text-2xl font-black text-slate-900 mb-8 flex items-center space-x-2 pl-2">
+                <Mail className="text-[#172554] w-6 h-6" />
                 <span>선생님 지원서</span>
               </h3>
-              <form className="space-y-5">
-                {/* 사진 업로드 */}
-                <div className="mb-6">
-                  <label className="block text-sm font-bold text-slate-700 mb-2">사진 업로드</label>
-                  <div className="flex items-center space-x-4">
-                    <div className="w-24 h-32 bg-slate-100 rounded-lg flex items-center justify-center border-2 border-dashed border-slate-300 text-slate-400">
-                      <Users size={32} />
-                    </div>
-                    <input type="file" className="text-sm file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100 transition-all cursor-pointer" accept="image/*" />
-                  </div>
-                </div>
-
-                <div className="grid md:grid-cols-2 gap-5">
+              
+              <form onSubmit={handleSubmit} className="space-y-6 pl-2">
+                <div className="grid md:grid-cols-2 gap-6">
                   <div>
-                    <label className="block text-sm font-bold text-slate-700 mb-2">성함</label>
-                    <input type="text" className="w-full px-4 py-3 rounded-lg border border-slate-200 focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition-all" placeholder="성함 입력" />
+                    <label className="block text-sm font-bold text-slate-700 mb-2">성함 <span className="text-red-500">*</span></label>
+                    <input 
+                      type="text" 
+                      required 
+                      name="name"
+                      value={formData.name}
+                      onChange={handleChange}
+                      className="w-full px-5 py-4 rounded-2xl border border-slate-100 bg-slate-50/50 focus:bg-white focus:ring-2 focus:ring-[#172554] focus:border-transparent outline-none transition-all placeholder:text-slate-300" 
+                      placeholder="성함 입력" 
+                    />
                   </div>
                   <div>
                     <label className="block text-sm font-bold text-slate-700 mb-2">생년월일</label>
-                    <input type="date" className="w-full px-4 py-3 rounded-lg border border-slate-200 focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition-all" />
+                    <input 
+                      type="date" 
+                      name="birthDate"
+                      value={formData.birthDate}
+                      onChange={handleChange}
+                      className="w-full px-5 py-4 rounded-2xl border border-slate-100 bg-slate-50/50 focus:bg-white focus:ring-2 focus:ring-[#172554] focus:border-transparent outline-none transition-all" 
+                    />
                   </div>
                 </div>
 
-                <div className="grid md:grid-cols-2 gap-5">
+                <div className="grid md:grid-cols-2 gap-6">
                   <div>
-                    <label className="block text-sm font-bold text-slate-700 mb-2">연락처</label>
-                    <input type="tel" className="w-full px-4 py-3 rounded-lg border border-slate-200 focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition-all" placeholder="010-0000-0000" />
+                    <label className="block text-sm font-bold text-slate-700 mb-2">연락처 <span className="text-red-500">*</span></label>
+                    <input 
+                      type="tel" 
+                      required 
+                      name="contact"
+                      value={formData.contact}
+                      onChange={handleChange}
+                      className="w-full px-5 py-4 rounded-2xl border border-slate-100 bg-slate-50/50 focus:bg-white focus:ring-2 focus:ring-[#172554] focus:border-transparent outline-none transition-all" 
+                      placeholder="010-0000-0000" 
+                    />
                   </div>
                   <div>
-                    <label className="block text-sm font-bold text-slate-700 mb-2">지원 과목</label>
-                    <select className="w-full px-4 py-3 rounded-lg border border-slate-200 focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition-all appearance-none bg-white">
-                      <option value="">선택하세요</option>
-                      <option value="math">수학</option>
-                      <option value="korean">국어</option>
-                      <option value="english">영어</option>
-                      <option value="science">과학</option>
-                      <option value="admin">행정</option>
-                    </select>
+                    <label className="block text-sm font-bold text-slate-700 mb-2">지원 과목 <span className="text-red-500">*</span></label>
+                    <div className="relative">
+                      <select 
+                        required 
+                        name="subject"
+                        value={formData.subject}
+                        onChange={handleChange}
+                        className="w-full px-5 py-4 rounded-2xl border border-slate-100 bg-slate-50/50 focus:bg-white focus:ring-2 focus:ring-[#172554] focus:border-transparent outline-none transition-all appearance-none cursor-pointer"
+                      >
+                        <option value="">과목 선택</option>
+                        <option value="수학">수학</option>
+                        <option value="국어">국어</option>
+                        <option value="영어">영어</option>
+                        <option value="과학">과학</option>
+                        <option value="행정">행정</option>
+                      </select>
+                      <div className="absolute right-4 top-1/2 -translate-y-1/2 pointer-events-none text-slate-400 font-outfit">▼</div>
+                    </div>
                   </div>
                 </div>
 
                 <div>
-                  <label className="block text-sm font-bold text-slate-700 mb-2">지원 분야 (중복 선택 가능)</label>
-                  <div className="flex flex-wrap gap-4 p-4 bg-slate-50 rounded-lg border border-slate-100">
+                  <label className="block text-sm font-bold text-slate-700 mb-3">지원 분야 (중복 선택 가능)</label>
+                  <div className="flex flex-wrap gap-4 p-5 bg-slate-50/50 rounded-2xl border border-slate-100">
                     {['초등', '중등', '고등', '행정'].map((field) => (
-                      <label key={field} className="flex items-center space-x-2 cursor-pointer group">
-                        <input type="checkbox" className="w-5 h-5 rounded border-slate-300 text-[#172554] focus:ring-[#172554] transition-all" />
-                        <span className="text-sm font-medium text-slate-600 group-hover:text-slate-900 transition-colors">{field}</span>
+                      <label key={field} className="flex items-center space-x-3 cursor-pointer group">
+                        <input 
+                          type="checkbox" 
+                          value={field}
+                          checked={formData.fields.includes(field)}
+                          onChange={handleChange}
+                          className="w-5 h-5 rounded-lg border-slate-300 text-[#172554] focus:ring-[#172554] transition-all" 
+                        />
+                        <span className="text-slate-600 font-bold group-hover:text-slate-900 transition-colors">{field}</span>
                       </label>
                     ))}
                   </div>
                 </div>
 
                 <div>
-                  <label className="block text-sm font-bold text-slate-700 mb-2">주소</label>
-                  <input type="text" className="w-full px-4 py-3 rounded-lg border border-slate-200 focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition-all" placeholder="거주지 주소 입력" />
+                  <label className="block text-sm font-bold text-slate-700 mb-2">거주지 주소</label>
+                  <input 
+                    type="text" 
+                    name="address"
+                    value={formData.address}
+                    onChange={handleChange}
+                    className="w-full px-5 py-4 rounded-2xl border border-slate-100 bg-slate-50/50 focus:bg-white focus:ring-2 focus:ring-[#172554] focus:border-transparent outline-none transition-all placeholder:text-slate-300" 
+                    placeholder="예: 서울 영등포구 신길동" 
+                  />
                 </div>
 
                 <div>
-                  <label className="block text-sm font-bold text-slate-700 mb-2">학력 사항</label>
-                  <textarea rows="3" className="w-full px-4 py-3 rounded-lg border border-slate-200 focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition-all resize-none" placeholder="대학교 / 전공 / 졸업 여부 등"></textarea>
+                  <label className="block text-sm font-bold text-slate-700 mb-2">학력 및 주요 경력 사항</label>
+                  <textarea 
+                    rows="6" 
+                    name="education"
+                    value={formData.education}
+                    onChange={handleChange}
+                    className="w-full px-5 py-4 rounded-2xl border border-slate-100 bg-slate-50/50 focus:bg-white focus:ring-2 focus:ring-[#172554] focus:border-transparent outline-none transition-all resize-none placeholder:text-slate-300" 
+                    placeholder="대학교 / 전공 / 졸업 여부 / 관련 경력 등을 적어주세요."
+                  ></textarea>
                 </div>
 
-                <button type="submit" className="w-full py-4 bg-[#172554] text-white font-black rounded-lg hover:bg-black transition-all shadow-lg active:scale-[0.98]">
-                  지원서 제출하기
-                </button>
-                <p className="text-center text-xs text-slate-400 font-medium">
-                  제출해주신 개인정보는 채용 목적으로만 사용되며 안전하게 보호됩니다.
-                </p>
+                <div className="pt-4">
+                  <button 
+                    type="submit" 
+                    disabled={isSubmitting}
+                    className={`w-full py-5 rounded-2xl font-black text-xl shadow-xl transition-all active:scale-[0.98] flex items-center justify-center space-x-3 ${
+                      isSubmitting ? 'bg-slate-400 text-slate-100' : 'bg-[#172554] text-white hover:bg-black'
+                    }`}
+                  >
+                    {isSubmitting ? (
+                      <>
+                        <Loader2 className="w-6 h-6 animate-spin" />
+                        <span>제출 중...</span>
+                      </>
+                    ) : (
+                      <>
+                        <span>지원서 제출하기</span>
+                        <Send size={20} />
+                      </>
+                    )}
+                  </button>
+                  <p className="text-center text-xs text-slate-400 font-medium mt-4">
+                    제출해주신 개인정보는 채용 목적으로만 사용되며 안전하게 보호됩니다.
+                  </p>
+                </div>
               </form>
             </div>
           </div>

@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { db, auth } from '../firebase';
-import { collection, query, orderBy, onSnapshot } from 'firebase/firestore';
+import { collection, query, onSnapshot, getDocs } from 'firebase/firestore';
 import { useAuthState } from 'react-firebase-hooks/auth';
 import { Search, Megaphone, Clock, User, Eye, ChevronLeft, ChevronRight, PenSquare, Loader2 } from 'lucide-react';
 
@@ -13,28 +13,39 @@ export default function NoticeBoard() {
   const [searchTerm, setSearchTerm] = useState('');
   const isAdmin = user?.email === 'admin@eaglemath.com';
 
-  useEffect(() => {
-    // 쿼리에서 orderBy를 제거합니다. (createdAt이 null인 경우 쿼리 결과에서 제외되는 현방 방지)
-    const q = query(collection(db, 'notices'));
-    const unsubscribe = onSnapshot(q, (snapshot) => {
-      const fetchedNotices = snapshot.docs.map(doc => {
-        const data = doc.data();
-        return {
-          id: doc.id,
-          ...data,
-          // 정렬을 위해 raw 생성시간 보관
-          rawDate: data.createdAt?.toDate?.() || new Date(),
-          date: data.createdAt?.toDate ? data.createdAt.toDate().toLocaleDateString('ko-KR') : '방금 전'
-        };
-      });
-      
-      // 상단 고정(pin) 우선 정렬 후, 최신순(createdAt)으로 정렬
-      const sortedNotices = [...fetchedNotices].sort((a, b) => {
-        if (a.pin !== b.pin) return b.pin ? 1 : -1;
-        return b.rawDate - a.rawDate;
-      });
+  const processSnapshot = (docs) => {
+    const fetchedNotices = docs.map(doc => {
+      const data = doc.data();
+      return {
+        id: doc.id,
+        ...data,
+        rawDate: data.createdAt?.toDate?.() || new Date(),
+        date: data.createdAt?.toDate ? data.createdAt.toDate().toLocaleDateString('ko-KR') : '방금 전'
+      };
+    });
+    return [...fetchedNotices].sort((a, b) => {
+      if (a.pin !== b.pin) return b.pin ? 1 : -1;
+      return b.rawDate - a.rawDate;
+    });
+  };
 
-      setNotices(sortedNotices);
+  useEffect(() => {
+    const q = query(collection(db, 'notices'));
+
+    // 1단계: 캐시에서 즉시 로드 (체감 속도 향상)
+    getDocs(q).then((snapshot) => {
+      if (!snapshot.empty) {
+        setNotices(processSnapshot(snapshot.docs));
+        setIsLoading(false);
+      }
+    }).catch(() => {});
+
+    // 2단계: 실시간 업데이트 구독 (서버 최신 데이터 반영)
+    const unsubscribe = onSnapshot(q, (snapshot) => {
+      setNotices(processSnapshot(snapshot.docs));
+      setIsLoading(false);
+    }, (error) => {
+      console.error("공지사항을 불러오는 중 에러 발생:", error);
       setIsLoading(false);
     });
     return () => unsubscribe();

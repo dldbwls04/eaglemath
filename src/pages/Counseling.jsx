@@ -68,7 +68,7 @@ export default function Counseling() {
             setIsSubmitting(true);
             try {
                 // EmailJS 연동 정보
-                const serviceId = 'service_z49hldr';
+                const serviceId = 'service_fmr8m2b';
                 const templateId = 'template_t5jnith';
                 const publicKey = 'GEih1O4Sd8hqoSlKc';
 
@@ -83,7 +83,8 @@ export default function Counseling() {
                     contact: formData.contact,
                     type: formData.type,
                     referral: formData.referral,
-                    referralDetail: formData.referralDetail
+                    referralDetail: formData.referralDetail,
+                    time: new Date().toLocaleString('ko-KR')
                 };
 
                 await emailjs.send(serviceId, templateId, templateParams, publicKey);
