@@ -134,7 +134,7 @@ export default function Recruitment() {
               {[
                 { step: "01", title: "서류전형", desc: "이력서 및 자기소개서 검토" },
                 { step: "02", title: "1차면접", desc: "인성 및 기본 역량 평가" },
-                { step: "03", title: "2차면접(시범강의)", desc: "교수 역량 및 시현 테스트" },
+                { step: "03", title: "2차면접(시범강의)", desc: "교사 역량 및 시현 테스트" },
                 { step: "04", title: "최종합격", desc: "처우 협의 및 입사 확정" }
               ].map((item, index) => (
                 <div key={index} className="text-center">
