@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import { Phone, Mail, MapPin } from 'lucide-react';
 
 export default function Footer() {
@@ -52,7 +53,22 @@ export default function Footer() {
                         </ul>
                     </div>
                 </div>
-                <div className="border-t border-slate-800 mt-8 pt-8 text-center text-xs text-slate-500">
+                <div className="border-t border-slate-800 mt-12 pt-8">
+                    <div className="flex flex-col md:flex-row justify-between items-center gap-6">
+                        <div className="text-[11px] leading-6 text-slate-500 text-center md:text-left">
+                            <p>
+                                대표자: 김선도 | 학원등록번호: 제6144호 | 사업자등록번호: 176-85-02656<br />
+                                주소: 서울 영등포구 신길로28가길 20 1층 | 이메일: eaglemath@naver.com
+                            </p>
+                        </div>
+                        <div className="flex items-center gap-4 text-xs font-bold text-slate-400">
+                            <Link to="/terms" className="hover:text-white transition-colors">이용약관</Link>
+                            <span className="w-px h-3 bg-slate-700"></span>
+                            <Link to="/privacy" className="hover:text-white transition-colors">개인정보처리방침</Link>
+                        </div>
+                    </div>
+                </div>
+                <div className="mt-8 text-center text-[10px] text-slate-600 font-medium tracking-wider uppercase">
                     &copy; {new Date().getFullYear()} Eagle Math Academy. All rights reserved.
                 </div>
             </div>

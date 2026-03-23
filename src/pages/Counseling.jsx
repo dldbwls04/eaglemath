@@ -19,6 +19,7 @@ export default function Counseling() {
     const [errors, setErrors] = useState({});
     const [submitted, setSubmitted] = useState(false);
     const [isSubmitting, setIsSubmitting] = useState(false);
+    const [isAgreed, setIsAgreed] = useState(false);
 
     const validate = () => {
         const newErrors = {};
@@ -324,13 +325,35 @@ export default function Counseling() {
                             )}
                         </div>
                     </div>
+                    
+                    {/* 개인정보 동의 체크박스 */}
+                    <div className="flex justify-center mt-8">
+                        <label className="flex items-center space-x-3 cursor-pointer group px-6 py-4 bg-white rounded-2xl border border-slate-100 shadow-sm hover:border-[#1e3a8a] transition-all">
+                            <div className="relative flex items-center">
+                                <input
+                                    type="checkbox"
+                                    checked={isAgreed}
+                                    onChange={(e) => setIsAgreed(e.target.checked)}
+                                    className="peer h-5 w-5 cursor-pointer appearance-none rounded-md border border-slate-300 transition-all checked:border-[#1e3a8a] checked:bg-[#1e3a8a]"
+                                />
+                                <span className="absolute text-white opacity-0 transition-opacity peer-checked:opacity-100 top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 pointer-events-none">
+                                    <svg xmlns="http://www.w3.org/2000/svg" className="h-3.5 w-3.5" viewBox="0 0 20 20" fill="currentColor" stroke="currentColor" strokeWidth="1">
+                                        <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd"></path>
+                                    </svg>
+                                </span>
+                            </div>
+                            <span className="text-sm text-slate-600 font-bold group-hover:text-slate-900 transition-colors">
+                                개인정보 수집 및 이용에 동의합니다. <span className="text-red-500">*</span>
+                            </span>
+                        </label>
+                    </div>
 
                     {/* Submit Button */}
                     <div className="flex justify-center pt-6">
                         <button
                             type="submit"
-                            disabled={isSubmitting}
-                            className={`group w-full max-w-lg py-5 ${isSubmitting ? 'bg-slate-400' : 'bg-[#0f172a] hover:bg-black'} text-white font-bold text-xl rounded-2xl shadow-xl hover:scale-[1.02] active:scale-[0.98] transition-all flex items-center justify-center space-x-3`}
+                            disabled={isSubmitting || !isAgreed}
+                            className={`group w-full max-w-lg py-5 ${isSubmitting || !isAgreed ? 'bg-slate-400 cursor-not-allowed' : 'bg-[#0f172a] hover:bg-black'} text-white font-bold text-xl rounded-2xl shadow-xl hover:scale-[1.02] active:scale-[0.98] transition-all flex items-center justify-center space-x-3`}
                         >
                             {isSubmitting ? (
                                 <>

@@ -13,6 +13,7 @@ export default function SignupPage() {
     const [showPassword, setShowPassword] = useState(false);
     const [showConfirm, setShowConfirm] = useState(false);
     const [isLoading, setIsLoading] = useState(false);
+    const [isAgreed, setIsAgreed] = useState(false);
     const [error, setError] = useState('');
     const [success, setSuccess] = useState(false);
 
@@ -26,6 +27,7 @@ export default function SignupPage() {
         if (!password) { setError('비밀번호를 입력해주세요.'); return; }
         if (password.length < 6) { setError('비밀번호는 6자 이상이어야 합니다.'); return; }
         if (password !== confirmPassword) { setError('비밀번호가 일치하지 않습니다.'); return; }
+        if (!isAgreed) { setError('이용약관 및 개인정보처리방침에 동의해주세요.'); return; }
 
         const email = `${userId.trim()}@eaglemath.com`;
 
@@ -178,6 +180,27 @@ export default function SignupPage() {
                                 <CheckCircle2 size={13} className="mr-1" /> 비밀번호가 일치합니다
                             </p>
                         )}
+                    </div>
+                    {/* 이용약관 동의 */}
+                    <div className="pt-2">
+                        <label className="flex items-start space-x-3 cursor-pointer group">
+                            <div className="relative flex items-center mt-0.5">
+                                <input
+                                    type="checkbox"
+                                    checked={isAgreed}
+                                    onChange={(e) => { setIsAgreed(e.target.checked); setError(''); }}
+                                    className="peer h-5 w-5 cursor-pointer appearance-none rounded-md border border-slate-300 transition-all checked:border-[#1e3a8a] checked:bg-[#1e3a8a]"
+                                />
+                                <span className="absolute text-white opacity-0 transition-opacity peer-checked:opacity-100 top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 pointer-events-none">
+                                    <svg xmlns="http://www.w3.org/2000/svg" className="h-3.5 w-3.5" viewBox="0 0 20 20" fill="currentColor" stroke="currentColor" strokeWidth="1">
+                                        <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd"></path>
+                                    </svg>
+                                </span>
+                            </div>
+                            <span className="text-sm text-slate-600 font-medium group-hover:text-slate-900 transition-colors leading-tight">
+                                <span className="font-bold text-[#1e3a8a]">이용약관</span> 및 <span className="font-bold text-[#1e3a8a]">개인정보처리방침</span>에 동의합니다. <span className="text-red-500">*</span>
+                            </span>
+                        </label>
                     </div>
 
                     {/* Submit Button */}

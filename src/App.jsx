@@ -32,6 +32,8 @@ import NoticeBoardEdit from './pages/NoticeBoardEdit';
 import FreeBoardWrite from './pages/FreeBoardWrite';
 import FreeBoardDetail from './pages/FreeBoardDetail';
 import FreeBoardEdit from './pages/FreeBoardEdit';
+import Terms from './pages/Terms';
+import Privacy from './pages/Privacy';
 
 // Firebase Auth 기반 ProtectedRoute
 const ProtectedRoute = ({ children }) => {
@@ -153,6 +155,10 @@ function App() {
           {/* Partnership Routes */}
           <Route path="partnership" element={<PagePlaceholder title="파트너제휴" />} />
           <Route path="partnership/recruitment" element={<Recruitment />} />
+
+          {/* Legal Routes */}
+          <Route path="terms" element={<Terms />} />
+          <Route path="privacy" element={<Privacy />} />
 
           {/* 404 */}
           <Route path="*" element={<PagePlaceholder title="페이지를 찾을 수 없습니다" />} />

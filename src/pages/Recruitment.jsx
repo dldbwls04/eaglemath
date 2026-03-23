@@ -14,6 +14,7 @@ export default function Recruitment() {
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitted, setSubmitted] = useState(false);
+  const [isAgreed, setIsAgreed] = useState(false);
 
   const handleChange = (e) => {
     const { name, value, type, checked } = e.target;
@@ -292,12 +293,34 @@ export default function Recruitment() {
                   ></textarea>
                 </div>
 
+                {/* 개인정보 동의 체크박스 */}
+                <div className="pt-2">
+                    <label className="flex items-center space-x-3 cursor-pointer group">
+                        <div className="relative flex items-center">
+                            <input
+                                type="checkbox"
+                                checked={isAgreed}
+                                onChange={(e) => setIsAgreed(e.target.checked)}
+                                className="peer h-5 w-5 cursor-pointer appearance-none rounded-md border border-slate-300 transition-all checked:border-[#172554] checked:bg-[#172554]"
+                            />
+                            <span className="absolute text-white opacity-0 transition-opacity peer-checked:opacity-100 top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 pointer-events-none">
+                                <svg xmlns="http://www.w3.org/2000/svg" className="h-3.5 w-3.5" viewBox="0 0 20 20" fill="currentColor" stroke="currentColor" strokeWidth="1">
+                                    <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd"></path>
+                                </svg>
+                            </span>
+                        </div>
+                        <span className="text-sm text-slate-600 font-bold group-hover:text-slate-900 transition-colors">
+                            개인정보 수집 및 이용에 동의합니다. <span className="text-red-500">*</span>
+                        </span>
+                    </label>
+                </div>
+
                 <div className="pt-4">
                   <button 
                     type="submit" 
-                    disabled={isSubmitting}
+                    disabled={isSubmitting || !isAgreed}
                     className={`w-full py-5 rounded-2xl font-black text-xl shadow-xl transition-all active:scale-[0.98] flex items-center justify-center space-x-3 ${
-                      isSubmitting ? 'bg-slate-400 text-slate-100' : 'bg-[#172554] text-white hover:bg-black'
+                      isSubmitting || !isAgreed ? 'bg-slate-400 cursor-not-allowed text-slate-100' : 'bg-[#172554] text-white hover:bg-black'
                     }`}
                   >
                     {isSubmitting ? (
