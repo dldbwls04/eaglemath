@@ -47,7 +47,31 @@ export default function Footer() {
                             <li>
                                 <a href="https://blog.naver.com/eaglemath" target="_blank" rel="noopener noreferrer" className="hover:text-white transition-colors font-bold flex items-center group">
                                     <span className="w-1.5 h-1.5 bg-green-500 rounded-full mr-2 group-hover:animate-pulse"></span>
-                                    독수리수학 공식 블로그
+                                    독수리수학 신길 공식 블로그
+                                </a>
+                            </li>
+                            <li>
+                                <a href="https://blog.naver.com/eagle_edu" target="_blank" rel="noopener noreferrer" className="hover:text-white transition-colors flex items-center group">
+                                    <span className="w-1.5 h-1.5 bg-slate-500 rounded-full mr-2 group-hover:bg-green-500"></span>
+                                    독수리수학 도림 블로그
+                                </a>
+                            </li>
+                            <li>
+                                <a href="https://blog.naver.com/eaglescience" target="_blank" rel="noopener noreferrer" className="hover:text-white transition-colors flex items-center group">
+                                    <span className="w-1.5 h-1.5 bg-slate-500 rounded-full mr-2 group-hover:bg-green-500"></span>
+                                    독수리과학 블로그
+                                </a>
+                            </li>
+                            <li>
+                                <a href="https://blog.naver.com/eagleenglish4968" target="_blank" rel="noopener noreferrer" className="hover:text-white transition-colors flex items-center group">
+                                    <span className="w-1.5 h-1.5 bg-slate-500 rounded-full mr-2 group-hover:bg-green-500"></span>
+                                    독수리영어 블로그
+                                </a>
+                            </li>
+                            <li>
+                                <a href="https://blog.naver.com/eaglemathedu" target="_blank" rel="noopener noreferrer" className="hover:text-white transition-colors flex items-center group">
+                                    <span className="w-1.5 h-1.5 bg-slate-500 rounded-full mr-2 group-hover:bg-green-500"></span>
+                                    독수리국어 블로그
                                 </a>
                             </li>
                         </ul>
