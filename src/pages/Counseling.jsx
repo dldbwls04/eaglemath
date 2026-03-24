@@ -226,6 +226,7 @@ export default function Counseling() {
                                             <option value="신길본점">신길본점</option>
                                             <option value="도림본원점">도림본원점</option>
                                             <option value="독수리수학과학전문관학원">독수리수학과학전문관학원</option>
+                                            <option value="독수리수학영어전문관학원">독수리수학영어전문관학원</option>
                                             <option value="리드인 독수리국어">리드인 독수리국어</option>
                                             <option value="독수리수학 연구소">독수리수학 연구소</option>
                                             <option value="뉴타운본원점">뉴타운본원점</option>
