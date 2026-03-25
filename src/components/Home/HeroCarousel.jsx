@@ -43,17 +43,17 @@ const slides = [
     },
     {
         id: 4,
-        title: "초등부터 대입까지",
+        title: "전 과목 통합 관리",
         description: <>
-            독수리수학은 초등 기초 과정부터 중·고등 내신,<br />
-            그리고 대입 수능 대비까지 <br className="md:hidden" />각 학년과 수준에 맞는 전문 교재와 수업 방식으로<br />
-            기초가 필요한 학생부터 상위권 학생까지<br />
-            누구에게나 최적화된 학습 지도를 제공합니다.
+            독수리수학과 함께 국어·영어·과학 등 주요 과목도<br />
+            연계된 분원을 통해 수강할 수 있습니다.<br />
+            학생의 학습 상황에 맞춰 과목별 학습을 체계적으로 연결하여<br />
+            전 과목 학습 관리가 가능한 시스템을 제공합니다.
         </>,
         bgClass: "from-[#0f172a] via-[#0f172a]/90 to-transparent",
         image: "/images/home/hero_growth.png",
-        tabTitle: <>초등부터 <br className="md:hidden" />대입까지</>,
-        tag: "GROWTH"
+        tabTitle: <>전 과목 <br className="md:hidden" />통합 관리</>,
+        tag: "INTEGRATED"
     }
 ];
 
@@ -141,9 +141,16 @@ export default function HeroCarousel() {
                                         }`}
                                     style={{ transitionDelay: '1100ms' }}
                                 >
-                                    <Link to="/contact/counseling" className="px-5 md:px-6 py-2.5 md:py-3 bg-[#fbbf24] hover:bg-[#f59e0b] text-[#1e3a8a] font-bold rounded shadow-lg transition-all transform hover:scale-105 flex items-center justify-center md:justify-start group text-xs md:text-sm">
-                                        상담 신청하기 <ChevronRight className="ml-2 w-4 h-4 md:w-5 md:h-5 group-hover:translate-x-1 transition-transform" />
-                                    </Link>
+                                    <div className="flex flex-col sm:flex-row gap-3 md:gap-4 w-full sm:w-auto">
+                                        <Link to="/contact/counseling" className="px-5 md:px-6 py-2.5 md:py-3 bg-[#fbbf24] hover:bg-[#f59e0b] text-[#1e3a8a] font-bold rounded shadow-lg transition-all transform hover:scale-105 flex items-center justify-center md:justify-start group text-xs md:text-sm">
+                                            상담 신청하기 <ChevronRight className="ml-2 w-4 h-4 md:w-5 md:h-5 group-hover:translate-x-1 transition-transform" />
+                                        </Link>
+                                        {slide.id === 4 && (
+                                            <Link to="/about/branches" className="px-5 md:px-6 py-2.5 md:py-3 bg-white/10 hover:bg-white/20 text-white border border-white/30 backdrop-blur-sm font-bold rounded shadow-lg transition-all transform hover:scale-105 flex items-center justify-center md:justify-start group text-xs md:text-sm">
+                                                분원 안내 바로가기 <ChevronRight className="ml-2 w-4 h-4 md:w-5 md:h-5 group-hover:translate-x-1 transition-transform" />
+                                            </Link>
+                                        )}
+                                    </div>
                                 </div>
                             </div>
                         </div>
