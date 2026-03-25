@@ -67,7 +67,11 @@ const ProtectedRoute = ({ children }) => {
 // 관리자 전용 Route
 const AdminRoute = ({ children }) => {
   const [user, loading] = useAuthState(auth);
-  if (loading) return null;
+  if (loading) return (
+    <div className="min-h-screen bg-slate-50 flex items-center justify-center">
+      <div className="w-10 h-10 border-4 border-[#172554] border-t-transparent rounded-full animate-spin" />
+    </div>
+  );
   if (!user || user.email !== 'admin@eaglemath.com') {
     alert('관리자 권한이 필요합니다.');
     return <Navigate to="/" replace />;

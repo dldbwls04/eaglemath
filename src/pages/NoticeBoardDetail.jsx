@@ -150,9 +150,10 @@ export default function NoticeBoardDetail() {
           </div>
 
           <div className="p-8 md:p-12">
-            <div className="prose prose-slate max-w-none text-slate-700 leading-relaxed text-lg whitespace-pre-wrap min-h-[400px]">
-              {notice.content}
-            </div>
+            <div 
+              className="quill-content text-slate-700 leading-relaxed text-lg min-h-[400px]"
+              dangerouslySetInnerHTML={{ __html: notice.content }}
+            />
           </div>
 
           <div className="px-8 py-6 bg-slate-50 border-t border-slate-100 flex justify-center text-slate-400 text-xs font-bold uppercase tracking-widest">
@@ -160,6 +161,41 @@ export default function NoticeBoardDetail() {
           </div>
         </div>
       </div>
+
+      <style>{`
+        .quill-content {
+          font-family: 'Noto Sans KR', sans-serif;
+        }
+        .quill-content p {
+          margin-bottom: 1rem;
+        }
+        .quill-content img {
+          max-width: 100%;
+          height: auto;
+          border-radius: 1rem;
+          margin: 1.5rem auto;
+          display: block;
+        }
+        .quill-content .ql-align-center {
+          text-align: center;
+        }
+        .quill-content .ql-align-right {
+          text-align: right;
+        }
+        .quill-content .ql-align-justify {
+          text-align: justify;
+        }
+        .quill-content h1 { font-size: 2rem; font-weight: 800; margin-top: 2rem; margin-bottom: 1rem; }
+        .quill-content h2 { font-size: 1.5rem; font-weight: 700; margin-top: 1.5rem; margin-bottom: 0.75rem; }
+        .quill-content h3 { font-size: 1.25rem; font-weight: 700; margin-top: 1.25rem; margin-bottom: 0.5rem; }
+        .quill-content blockquote {
+          border-left: 4px solid #e2e8f0;
+          padding-left: 1rem;
+          font-style: italic;
+          color: #64748b;
+          margin: 1.5rem 0;
+        }
+      `}</style>
     </div>
   );
 }
